@@ -1,0 +1,371 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: #f7f8fc;
+    color: #222;
+    overflow: hidden;
+    padding-bottom: 160px;
+    margin: 0;
+}
+
+/* --- Header --- */
+.header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 20px 60px;
+}
+
+.top-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-left {
+    border: solid 2px rgb(0, 0, 0);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* --- Text and Sub Layout --- */
+.top-left-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.top-text {
+    font-size: 1.6rem;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    color: #222;
+    position: relative;
+    margin-left: 15px;
+}
+
+.underline {
+    width: 250px;
+    height: 3px;
+    background-color: #00000033;
+    border-radius: 2px;
+    margin-top: 5px;
+    margin-left: -20px;
+}
+
+/* --- Row with UEP Logo and Dean Info --- */
+.sub-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    margin-left: -5px;
+}
+
+.logo-right {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sub-text {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.3;
+}
+
+/* --- Stats Cards --- */
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 80%;
+    margin: 40px auto 30px;
+}
+
+.card {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    border-radius: 30px;
+    color: #fff;
+    border: solid 2px black;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: 
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+.card:hover {
+    border: 3px solid #222;
+    transform: scale(1.01);
+    box-shadow: 0 6px 15px rgba(2, 2, 2, 0.37);
+}
+
+.card-number {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.card.total { background: #222; }
+.card.pending { background: #2d9cdb; }
+.card.approved { background: #27ae60; }
+.card.rejected { background: #eb5757; }
+
+.divider-line {
+    width: 80%;
+    height: 3px;
+    justify-self: center;
+    background: linear-gradient(to right, #2d9cdb, #27ae60, #eb5757);
+    border-radius: 3px;
+    margin: 10px auto 5px auto;
+}
+
+h1 {
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 55px;
+    margin-bottom: 5px;
+}
+
+/* --- Announcement Section --- */
+.announcement-container {
+    width: 90%;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 0 auto 30px;
+}
+
+.new-announcement-btn {
+    background: #2d9cdb;
+    box-shadow: 0 6px 15px rgba(2, 2, 2, 0.37);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 30px;
+    margin-bottom: -30px;
+    transition: 
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+.new-announcement-btn:hover {
+    transform: scale(1.01);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.514);
+}
+
+.announcement-body {
+    border: solid 1px black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 10px 20px rgba(11, 41, 179, 0.514);
+    margin-top: 15px;
+    background: #f8faff;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 0%;
+}
+
+.announcement-time {
+    background: #2d9cdb;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 15px;
+    text-align: center;
+    min-width: 100px;
+}
+
+.day {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+.clock {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.announcement-text {
+    flex: 1;
+    margin: 0 25px;
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.announcement-footer {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+}
+
+.announcement-buttons {
+    margin-top: 12px;
+}
+
+.announcement-buttons {
+    display: flex;
+    justify-content: right;
+}
+
+.announcement-buttons button {
+    margin-right: 10px;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    align-items: right;
+}
+
+.ViewBtn {
+    box-shadow: -3px 5px 4px rgba(23, 83, 173, 0.705);
+    color: rgb(0, 0, 0);
+    transition: 
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+.ViewBtn:hover {
+    border: solid .01px black;
+    transform: scale(1.01);
+}
+
+.postBtn {
+    box-shadow: -3px 5px 4px rgba(23, 173, 110, 0.705);
+    color: rgb(0, 0, 0);
+    transition: 
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+.postBtn:hover {
+    border: solid .01px black;
+    transform: scale(1.01);
+}
+
+.announcement-icon img {
+    width: 100px;
+    height: auto;
+    transform: scaleX(-1);
+}
+
+/* --- Table --- */
+.main-container {
+    width: 90%;
+    height: 51vh;
+    margin: 0 auto;
+    margin-top: -20px;
+    background: #fff;
+    border: solid 2.5px black;
+    border-radius: 20px;
+    padding: 25px;
+    overflow-y: auto; 
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.main-container::-webkit-scrollbar {
+    width: 8px;
+}
+.main-container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+}
+.main-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.main-container h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #333;
+    position: sticky;
+    top: -30px;
+    background: #fff; 
+    padding: 10px 0;
+    z-index: 3; 
+    border-bottom: 2px solid #ddd;
+}
+
+.faculty-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.faculty-table th, .faculty-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.faculty-table thead th {
+    position: sticky;
+    top: 15px; 
+    background: #f3f4f6;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.faculty-table th {
+    background: #f3f4f6;
+    font-weight: 600;
+}
+
+.faculty-table td a {
+    color: #2d9cdb;
+    text-decoration: none;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.status.pending {
+    background: #ffcd00;
+    color: #222;
+}
+
+.status.approved {
+    background: #27ae60;
+    color: #fff;
+}
+
+.viewBtn {
+    height: 40px;
+    width: 40px;
+    font-size: larger;
+    background: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: 
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+.viewBtn:hover {
+    transform: scale(1.3);
+}
