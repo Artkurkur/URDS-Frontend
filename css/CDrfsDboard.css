@@ -492,6 +492,132 @@ body::before {
 }
 
 
+/* ============================== */
+/* 🧾 EVALUATION SUMMARY MODAL CSS */
+/* ============================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: none; /* hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex; /* show modal when active */
+}
+
+.modal-box {
+    background: #fff;
+    width: 85%;
+    max-width: 900px;
+    border-radius: 12px;
+    padding: 30px 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* ✖ Close button */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.close-btn:hover {
+    color: #d32f2f;
+}
+
+/* 🧩 Modal Title */
+.modal-box h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #222;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* 🧱 Summary Section Layout */
+.summary-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 40px;
+    margin-top: 10px;
+}
+
+.summary-item h3 {
+    font-size: 1.1rem;
+    color: #004085;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+}
+
+.summary-item p {
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+}
+
+.summary-item ul {
+    margin: 5px 0 0 20px;
+    padding: 0;
+}
+
+.summary-item ul li {
+    list-style-type: disc;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+/* ✨ Add soft scroll for long content */
+.modal-box {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* 📱 Mobile Responsive */
+@media (max-width: 768px) {
+    .modal-box {
+        width: 95%;
+        padding: 25px 20px;
+    }
+
+    .summary-section {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .modal-box h2 {
+        font-size: 1.4rem;
+    }
+
+    .close-btn {
+        font-size: 24px;
+        top: 10px;
+        right: 15px;
+    }
+}
+
+/* ✨ Subtle fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
 /* ========================= */
 /* 📱 MOBILE RESPONSIVE FIXES */
 /* ========================= */
