@@ -1,0 +1,677 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: #a9b5e463;
+    color: #222;
+    overflow: hidden; /* ⛔ prevents both vertical and horizontal scroll */
+}
+
+/* Use a pseudo-element for blur effect */
+body::before {
+    margin-top: 580px;
+    margin-left: -190px;
+    content: "";
+    position: fixed;
+    justify-content: flex-start;
+    width: 40%;
+    height: 40%;
+    background: url('../asset/UEPlogo.png') no-repeat top center;
+    background-size: cover;
+    filter: blur(2px); /* 🔹 adjust blur strength (e.g., 4px–10px) */
+    z-index: -1; /* keep it behind content */
+    opacity: 0.7; /* optional: makes it subtle */
+}
+
+/* --- Header --- */
+.header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 60px;
+    padding: 15px 35px;
+}
+
+/* --- LEFT SECTION --- */
+.top-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-left {
+    border: solid 2px rgb(0, 0, 0);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.top-left-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.top-text {
+    font-size: 1.6rem;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    color: #222;
+    margin-left: 15px;
+}
+
+.underline {
+    width: 250px;
+    height: 3px;
+    background-color: #00000033;
+    border-radius: 2px;
+    margin-top: 5px;
+    margin-left: -20px;
+}
+
+/* --- Row with UEP Logo and Dean Info --- */
+.sub-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    margin-left: -5px;
+}
+
+.logo-right {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sub-text {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.3;
+}
+
+/* --- MIDDLE FEATURE BUTTON --- */
+.middle-feature {
+    flex: 0 0 auto;
+}
+
+.summary-btn {
+    width: 80%;
+    margin-top: 60px;
+    background: #d6dbf16c;
+    border: 2px solid #000000;
+    color: #000000;
+    letter-spacing: 0.8px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(3, 109, 202, 0.815);
+}
+
+.Icon-detail {
+    height: 15px;
+}
+
+.summary-btn:hover {
+    background: #2d9bdb;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(45, 155, 219, 0.532);
+}
+
+/* --- RIGHT SECTION --- */
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0%;
+    margin-bottom: -30px;
+}
+
+.course-info {
+    text-align: right;
+}
+
+.course-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-right: 15px;
+    letter-spacing: 0.8px;
+    color: #828282;
+}
+
+.underline-right {
+    width: 200px;
+    height: 3px;
+    background-color: #00000033;
+    border-radius: 2px;
+    margin-top: 5px;
+    margin-left: 150px;
+}
+
+.course-subtext {
+    font-size: 0.9rem;
+    color: #000000;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+}
+
+.logo-rightmost {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: solid 2px #00000044;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* --- MAIN CONTAINER --- */
+.main-container {
+    margin: 0 auto;
+    border: 1px solid rgba(0, 0, 0, 0.58);
+    border-radius: 20px;
+    width: 98%;
+    height: auto;
+    display: flex;
+    justify-content: space-around;
+    padding: 25px;
+    gap: 30px;
+    background: rgba(255, 255, 255, 0.2); /* light transparent white */
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px); /* adds the blur effect */
+    position: relative;
+    overflow: visible; /* ✅ allow children to visually overflow */
+}
+
+
+/* --- LEFT SECTION --- */
+/* --- Labels --- */ 
+.researcher-title, .department-title, .title-label, 
+.date-label, .comment-label, .suggestion-label { 
+    margin-left: 15px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.left-section {
+    flex: 1;
+    border-radius: 15px;
+    padding: 5px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+    overflow: visible; /* ✅ allow children to overflow */
+    padding-left: 20px; /* optional - gives spacing inside the section */
+}
+
+/* --- Researcher & Department --- */
+.first-div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.researcher-details, .department-details {
+    flex: 1;
+    padding: 12px 16px;
+}
+
+.researcher-title, .department-title {
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.Rtitle-det, .Dtitle-det {
+    flex: 1;
+    background: #a9b5e405;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* --- Research Title & Date --- */
+.researchFile-icon {
+    width: 60px;
+    height: 50px;
+    margin-right: 10px;
+    margin-left: -20px;
+}
+
+.second-div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.Rtitle-sec {
+    flex: 1;
+    padding: 12px 16px;
+}
+
+.researchTitle-det {
+    display: flex;
+    flex: 1;
+    background: #a9b5e405;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.date-section {
+    flex: 1;
+    padding: 12px 16px;
+}
+
+.date {
+    flex: 1;
+    background: #a9b5e405;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* --- Comments & Suggestions --- */
+.third-div, .fourth-div {
+    padding: 12px 16px;
+}
+
+.comment-label, .Suggestion-label {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.comments {
+    background: #a9b5e405;
+    width: 100%;
+    height: 135px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 0.9rem;
+    resize: none;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.4;
+}
+
+.suggestions {
+    width: 100%;
+    height: 135px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    background: transparent;
+    padding: 10px;
+    font-size: 0.9rem;
+    resize: none;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.comments:focus, .suggestions:focus {
+    border-color: #2d9cdb;
+    background: transparent;
+}
+
+/* --- RATING SECTION --- */
+.fifth-div {
+    margin-top: 5px;
+}
+
+.rating-container {
+    width: 98%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: #d6dbf1d3;
+    border: 2px solid #000000;
+    border-radius: 15px;
+    padding: 15px 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-top: 10px;
+
+    /* ✅ NEW — make it overflow outside the left-section and main container */
+    position: absolute;
+    margin-left: -25px;  
+    width: calc(100% + 15px); /* expand width to balance the shift */
+    height: 140px;
+}
+
+.specificSuggest-label {
+    margin-left: 20px;
+}
+
+.rating-sec {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.needRevision-sec, .disApproved-sec, .approved-sec {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.Nrevision-checklist, .disapproved-checklist, .approved-checklist {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s, border 0.3s;
+}
+
+.Nrevision-checklist.active,
+.disapproved-checklist.active,
+.approved-checklist.active {
+    background-color: #2d9cdb;
+    border-color: #2d9cdb;
+}
+
+.line-divider {
+    height: 30px;
+    width: 2px;
+    background: #00000060;
+}
+
+.rate {
+    padding: 5px 10px;
+    border: 1px solid #474646;
+    border-radius: 8px;
+    background: #d6dbf1b9;
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.rate:hover {
+    border-color: #585757;
+}
+
+.rate:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.4);
+}
+
+.rating-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* --- RIGHT SECTION --- */
+.right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-holder {
+    border: solid 2px rgba(0, 0, 0, 0.518);
+    background: #a9b5e405;
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    height: 740px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.grid-box {
+    width: 100%;
+    height: 650px;
+    border: 2px solid #00000076;
+    border-radius: 10px;
+    background: #a9b5e405;
+    overflow-y: scroll;
+    padding: 15px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* scrollbar customization */
+.grid-box::-webkit-scrollbar {
+    width: 8px;
+}
+.grid-box::-webkit-scrollbar-thumb {
+    background-color: #bdbdbd;
+    border-radius: 5px;
+}
+.grid-box::-webkit-scrollbar-thumb:hover {
+    background-color: #828282;
+}
+
+/* --- SUBMIT BUTTON --- */
+.submitBtn {
+    align-self: flex-end;
+    margin-top: 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(3, 109, 202, 0.815);
+    transition: 
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
+}
+.submitBtn:hover {
+    background-color: #0056b3;
+}
+
+
+/* ========================= */
+/* 📱 MOBILE RESPONSIVE FIXES */
+/* ========================= */
+@media (max-width: 768px) {
+
+    /* ✅ Make the whole page scrollable */
+    body {
+        height: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+        /* ✅ Center background logo on mobile */
+    body::before {
+        margin: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 80%;
+        background-position: center;
+        background-size: contain;
+        filter: blur(2px);
+        opacity: 0.5; /* optional - make it less distracting */
+    }
+
+    /* ✅ Center all header content */
+    .header-bar {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin: 20px auto;
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .top-left, .top-right {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: 0;
+    }
+
+    .top-text {
+        font-size: 1.3rem;
+        margin-left: 0;
+    }
+
+    .course-title {
+        justify-self: center;
+        color: black;
+    }
+
+    .underline, .underline-right {
+        margin: 5px auto;
+    }
+
+    .logo-left, .logo-rightmost {
+        width: 70px;
+        height: 70px;
+    }
+
+    .researchFile-icon {
+        width: 60px;
+        height: 50px;
+        margin-right: 10px;
+        margin-left: -20px;
+    }
+
+    /* ✅ Make layout stack vertically */
+    .main-container {
+        flex-direction: column;
+        width: 95%;
+        padding: 15px;
+        gap: 20px;
+        overflow-y: auto; /* allow scrolling on mobile */
+        height: auto;
+    }
+
+    .left-section, .right-section {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .first-div, .second-div {
+        flex-direction: column;
+    }
+
+    .rating-container {
+        position: relative;
+        width: 100%;
+        margin-left: 0;
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 15px;
+    }
+
+    .rating-sec {
+        margin-right: 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .line-divider {
+        display: none; /* hide divider for tight screens */
+    }
+
+    .needRevision-sec,
+    .disApproved-sec,
+    .approved-sec {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .rate {
+        width: 100px;
+    }
+
+    .grid-holder {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+
+    .grid-box {
+        height: 300px;
+    }
+
+    .submitBtn {
+        width: 100%;
+        align-self: center;
+        padding: 12px;
+        border-radius: 10px;
+        transition: 
+            box-shadow 0.3s ease,
+            background 0.3s ease,
+            color 0.3s ease;
+    }
+}
+
+/* 📱 Smaller screens (phones) */
+@media (max-width: 600px) {
+    .header-bar {
+        flex-direction: column;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .top-text {
+        font-size: 1.2rem;
+    }
+
+    .underline {
+        width: 150px;
+    }
+
+    .summary-btn {
+        width: 100%;
+        font-size: 0.75rem;
+        padding: 8px 15px;
+    }
+
+    .main-container {
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .comments, .suggestions {
+        height: 100px;
+    }
+
+    .rating-container {
+        padding: 10px;
+        border-width: 1px;
+    }
+
+    .rate {
+        font-size: 0.8rem;
+        width: 90px;
+    }
+}
