@@ -1,0 +1,607 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: url("../asset/WebBg.jpg") center/cover no-repeat fixed;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  background: rgba(94, 126, 233, 0.329);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* NAVBAR */
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: linear-gradient(rgba(39, 39, 39, 0.8), transparent);
+  z-index: 100;
+}
+
+.uep-logo {
+  width: 90px;
+  height: 70px;
+}
+
+.nav-menu ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.link {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  padding-bottom: 5px;
+  transition: 0.3s ease;
+}
+
+.link:hover,
+.link.active {
+  border-bottom: 2px solid #fff;
+}
+
+.btn {
+  width: 120px;
+  height: 40px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.btn.white-btn {
+  background: rgba(255, 255, 255, 0.8);
+  color: #222;
+}
+
+.btn.white-btn:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* FORM BOX */
+.form-box {
+  width: 480px;
+  padding: 40px 35px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  transition: all 0.5s ease;
+}
+
+/* FORM VISIBILITY */
+.login-container,
+.register-container {
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+  animation: fadeIn 0.5s ease;
+}
+
+.login-container.active,
+.register-container.active {
+  display: flex;
+}
+
+/* TOP SECTION */
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.top span {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.top a {
+  color: #ffeb3b;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.top a:hover {
+  text-decoration: underline;
+}
+
+/* INPUTS */
+.input-box {
+  position: relative;
+  width: 100%;
+}
+
+.input-field {
+  width: 100%;
+  height: 45px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 15px;
+  padding: 0 45px 0 20px;
+  transition: 0.2s ease;
+}
+
+.input-field:hover,
+.input-field:focus {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+::placeholder {
+  color: rgba(255, 255, 255, 0.9);
+  opacity: 1; /* ensure full visibility across browsers */
+}
+
+.icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  opacity: 0.9;
+}
+
+/* BUTTONS */
+.submit {
+  width: 100%;
+  height: 45px;
+  border: none;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #222;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.submit:hover {
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* CHECK + TERMS */
+.two-forms {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px; /* spacing between first and last name fields */
+  width: 100%;
+}
+
+.two-forms .input-box {
+  flex: 1;
+}
+
+@media (max-width: 480px) {
+  .two-forms {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.two-col {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-size: 14px;
+}
+
+.two-col a {
+  color: #ffeb3b;
+  text-decoration: none;
+}
+
+.two-col a:hover {
+  text-decoration: underline;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Terms Back Button */
+.back-btn {
+  display: block;
+  margin: 25px auto 0;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.05);
+}
+
+.terms-text {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 15px;
+}
+
+.terms-text a {
+  color: #fff;
+  text-decoration: underline;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.terms-text a:hover {
+  opacity: 1;
+}
+
+/* li */
+.container {
+  display: none;
+  animation: fadeIn 0.5s ease-in-out;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px 35px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+  text-align: left;
+  flex-direction: column;
+}
+
+.container.active {
+  display: flex;
+}
+
+.container h2 {
+  font-size: 26px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.container p {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.service-list,
+.about-list {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.service-list li,
+.about-list li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* ===========================
+   HAMBURGER BUTTON (LEFT SIDE)
+=========================== */
+.hamburger-btn {
+  display: none;
+  position: fixed;
+  top: 22px;
+  left: 25px;
+  font-size: 26px;
+  color: #fff;
+  background: none;
+  border: none;
+  z-index: 100000 !important; /* 🟢 even higher */
+  cursor: pointer;
+}
+
+/* ===========================
+   MOBILE DRAWER (LEFT SIDE)
+=========================== */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: -260px; /* start hidden on left side */
+  width: 240px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 60px 25px;
+  gap: 20px;
+  transition: left 0.3s ease; /* animate from left */
+  z-index: 9998; /* ensure it's above all forms and content */
+}
+
+.mobile-drawer.open {
+  left: 0; /* slides in from the left */
+}
+
+/* Drawer link styles */
+.mobile-drawer a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  width: 100%;
+}
+
+.mobile-drawer hr {
+  width: 100%;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  margin: 10px 0;
+}
+
+/* ===========================
+   RESPONSIVENESS
+=========================== */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block; /* show only on mobile */
+  }
+
+  .nav-menu {
+    display: none; /* hide normal nav on mobile */
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-drawer {
+    display: none; /* hide drawer on desktop */
+  }
+}
+
+/* -----------------------
+   Responsive adjustments
+   ----------------------- */
+
+/* Make form-box and containers fluid on small screens */
+@media (max-width: 900px) {
+  .form-box,
+  .container {
+    width: 720px;
+    max-width: 90%;
+    padding: 30px 24px;
+    border-radius: 18px;
+  }
+
+  .container h2 {
+    font-size: 22px;
+  }
+
+  .input-field {
+    height: 46px;
+    font-size: 15px;
+    padding: 0 44px 0 16px;
+  }
+
+  .icon { right: 14px; width: 20px; }
+}
+
+/* Tablet & large phones */
+@media (max-width: 600px) {
+  html, body {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto !important; /* enable vertical scrolling */
+    overflow-x: hidden;
+    display: block; /* allow normal flow */
+  }
+
+  .nav-menu { 
+    display: none;                          /* hide desktop links */
+  }        
+
+  .nav-button { 
+    display: none;                          /* hide desktop sign buttons */
+  }         
+
+  .nav-menu-btn { 
+    display: block;                         /* show hamburger */
+  }      
+
+  .menu { 
+    width: 26px; 
+    height: 26px; 
+  }
+
+  /* make wrapper adapt and let page scroll normally */
+  .wrapper { 
+    align-items: flex-start; 
+    justify-content: flex-start;
+    padding-top: 90px; /* space for fixed nav */
+    height: auto !important;
+  }
+
+  .form-box,
+  .container {
+    width: 92%;
+    max-width: 420px;
+    padding: 26px;
+    border-radius: 16px;
+    margin: 30px auto;     /* center with spacing on mobile */
+    position: relative;    /* ensure proper stacking */
+    top: 0;
+    left: 0;
+    transform: none;
+    overflow-y: visible; /* allow content to expand */
+  }
+
+  .container {
+    background: rgba(255,255,255,0.08);
+  }
+
+  .container.active { 
+    display: flex;        /* ensure visible container displays correctly */
+  } 
+
+  /* stack two-forms vertically on small screens */
+  .two-forms { 
+    flex-direction: column; 
+    gap: 12px; 
+  }
+
+  /* nav logo smaller */
+  .nav-logo p { 
+    font-size: 20px; 
+  }
+
+  /* adjust headings & text for readability */
+  .container h2 { 
+    font-size: 20px; 
+    margin-bottom: 12px; 
+  }
+
+  .container p, .service-list li, .about-list li { 
+    font-size: 14px; 
+  }
+
+  /* submit and buttons bigger target */
+  .submit, .back-btn { 
+    height: 48px; 
+    font-size: 15px; 
+    padding: 0 18px; 
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  html, body {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto !important; /* enable scrolling */
+    overflow-x: hidden;
+    display: block; /* remove flex restriction */
+  }
+
+  .wrapper {
+    height: auto !important;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 90px 0 40px; /* give spacing under fixed nav */
+  }
+
+  .container, .form-box {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 380px;
+    padding: 20px;
+    border-radius: 16px;
+    overflow-y: visible;
+  }
+
+  .input-field { 
+    padding-left: 12px; 
+  }
+
+  .icon { 
+    right: 10px; 
+    width: 18px; 
+  }
+
+  .nav { 
+    height: 64px; 
+    line-height: 64px; 
+  }
+
+  .nav-logo p { 
+    font-size: 18px; 
+  }
+
+  header .link { 
+    font-size: 14px; 
+  }
+}
+
+/* -----------------------
+   Mobile Nav Drawer
+   ----------------------- */
+/* default hide hamburger button on desktop */
+.nav-menu-btn { 
+  display: none; 
+  cursor: pointer; 
+}
+
+/* the drawer (slide-in) */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 240px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 60px 25px;
+  gap: 20px;
+  transition: left 0.3s ease;
+  z-index: 99999 !important; /* 🟢 force highest priority */
+}
+
+/* visible state */
+.mobile-drawer.open { 
+  right: 0; 
+}
+
+/* drawer links */
+.mobile-drawer a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 6px;
+  border-radius: 8px;
+}
+.mobile-drawer a:hover { 
+  background: rgba(255,255,255,0.04); 
+}
+
+/* make sure containers stay above drawer */
+.form-box, .container { 
+  z-index: 200; 
+}
+
+.container, .page, .wrapper, .form-box {
+  position: relative;
+  z-index: 1 !important;
+}

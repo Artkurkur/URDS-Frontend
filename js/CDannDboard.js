@@ -65,3 +65,49 @@ document.getElementById('newBtn').addEventListener('click', () => {
   const n = Number(document.getElementById('notifCount').textContent.replace('+', '')) || 0;
   document.getElementById('notifCount').textContent = (n + 1) + '+';
 });
+
+
+// ---------- MODAL LOGIC ----------
+const modal = document.getElementById("announcementModal");
+const closeModal = document.getElementById("closeModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalContent = document.getElementById("modalContent");
+const modalDeadline = document.getElementById("modalDeadline");
+
+// Open modal when clicking a history card
+document.querySelectorAll('.history-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const title = card.querySelector('h4').textContent;
+    const content = card.querySelector('p').textContent;
+    const date = card.querySelector('.history-date').textContent;
+
+    modalTitle.textContent = title;
+    modalContent.textContent = content;
+    modalDeadline.textContent = date;
+    modal.classList.add('active');
+  });
+});
+
+// Close modal
+closeModal.addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', e => {
+  if (e.target === modal) modal.classList.remove('active');
+});
+
+
+// ---------- ANNOUNCEMENT COUNT ----------
+function updateNotifCount() {
+  const historyCards = document.querySelectorAll('.history-card');
+  const notifCount = document.getElementById('notifCount');
+  notifCount.textContent = historyCards.length;
+}
+
+// Run once when the page loads
+updateNotifCount();
+
+// (Optional) if announcements are dynamically added later:
+const historyContainer = document.querySelector('.announcement-history');
+if (historyContainer) {
+  const observer = new MutationObserver(updateNotifCount);
+  observer.observe(historyContainer, { childList: true });
+}

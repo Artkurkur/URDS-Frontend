@@ -6,79 +6,110 @@
   <title>Announcement Dashboard</title>
   <link rel="stylesheet" href="../css/CDannDboard.css">
 </head>
-<body>
-    <div class="page">
+    <body>
+        <div class="page">
 
-        <!-- header -->
-        <div class="header-bar">
-            <div class="backBtn">&#x2190;</div>
-            <div class="header-container">
-            <div class="URDS-logo" aria-hidden="true"></div>
-            <div class="H-subContainer">
-                <div class="URDS">University and Research Development Services</div>
-                <div class="Univ-name">University of Eastern Philippines</div>
-            </div>
-            </div>
-        </div>
-
-        <!-- main card -->
-        <div class="main-container">
-            <div class="Mcontainer-header">
-            <div class="ann-label">Announcements</div>
-            <div class="search-bar">
-                <input id="searchInput" placeholder="Search announcements..." />
-            </div>
+            <!-- header -->
+            <div class="header-bar">
+                <div class="backBtn">&#x2190;</div>
+                <div class="header-container">
+                <div class="URDS-logo" aria-hidden="true"></div>
+                <div class="H-subContainer">
+                    <div class="URDS">University and Research Development Services</div>
+                    <div class="Univ-name">University of Eastern Philippines</div>
+                </div>
+                </div>
             </div>
 
-            <div class="sub-container">
-                <div class="inboxes-label">All inboxes</div>
-                <div class="total-notif" id="notifCount">9+</div>
+            <!-- main card -->
+            <div class="main-container">
+                <div class="Mcontainer-header">
+                <div class="ann-label">Announcements</div>
+                <div class="search-bar">
+                    <input id="searchInput" placeholder="Search announcements..." />
+                </div>
+                </div>
 
-                <div class="Mcontainer-holder">
-                    <!-- highlighted -->
-                    <div class="holder-header">
-                        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
-                            <div style="flex:1">
-                            <button class="new-announcement-btn" id="newBtn">
-                                New Announcement
-                            </button>
-                            </div>
-                            <div style="color:#333;font-weight:700">Oct 12, 2025</div>
-                        </div>
+                <div class="sub-container">
+                    <div class="inboxes-label">All inboxes</div>
+                    <div class="total-notif" id="notifCount">9+</div>
 
-                        <div class="announcement-body" style="margin-top:12px">
-                            <div class="announcement-time">
-                                <div class="day">TODAY</div>
-                                <div class="clock">17:00</div>
+                    <div class="Mcontainer-holder">
+                        <!-- highlighted -->
+                        <div class="holder-header">
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+                                <div style="flex:1">
+                                <button class="new-announcement-btn" id="newBtn">
+                                    New Announcement
+                                </button>
+                                </div>
+                                <div style="color:#333;font-weight:700">Oct 12, 2025</div>
                             </div>
 
-                            <div class="announcement-text">
-                                <div class="C-date">Oct 12, 2025</div>
-                                <p id="highlightText">
-                                    The University Research and Development Services (URDS) is now accepting Research Proposals for the Academic Year 2024–2025. Please review the guidelines and submit your proposal before the deadline.
-                                </p>
-                                <div class="announcement-footer">
-                                    <span class="deadline">📅 Deadline: Oct 13, 2025</span>
-                                    <span class="guide">📘 Guidelines Available</span>
+                            <div class="announcement-body" style="margin-top:12px">
+                                <div class="announcement-time">
+                                    <div class="day">TODAY</div>
+                                    <div class="clock">17:00</div>
+                                </div>
+
+                                <div class="announcement-text">
+                                    <div class="C-date">Oct 12, 2025</div>
+                                    <p id="highlightText">
+                                        The University Research and Development Services (URDS) is now accepting Research Proposals for the Academic Year 2024–2025. Please review the guidelines and submit your proposal before the deadline.
+                                    </p>
+                                    <div class="announcement-footer">
+                                        <span class="deadline">📅 Deadline: Oct 13, 2025</span>
+                                        <span class="guide">📘 Guidelines Available</span>
+                                    </div>
+                                </div>
+
+                                <div class="announcement-icon">
+                                    <img src="../asset/MPhone.png" alt="megaphone">
                                 </div>
                             </div>
-
-                            <div class="announcement-icon">
-                                <img src="../asset/MPhone.png" alt="megaphone">
-                            </div>
                         </div>
-                    </div>
 
-                    <!-- history -->
-                    <div class="holder-Mcontainer">
-                        <div class="history-label">History</div>
-                        <div class="grid-box" id="historyList"></div>
+                        <!-- history -->
+                        <div class="holder-Mcontainer">
+                            <div class="history-label">History</div>
+                            <div class="grid-box" id="historyList"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="../js/CDannDboard.js"></script>
-</body>
+        <!-- 🔹 Announcement Detail Modal -->
+        <div class="announcement-modal" id="announcementModal">
+            <div class="announcement-modal-content">
+                <span class="close-modal" id="closeModal">&times;</span>
+                <div class="announcement-detail">
+                <div class="announcement-detail-header">
+                    <img src="../asset/MPhone.png" alt="icon">
+                    <h2 id="modalTitle">Call for Research Proposals (A.Y. 2024–2025)</h2>
+                </div>
+
+                <div class="announcement-detail-body">
+                    <h3>Full Details:</h3>
+                    <p id="modalContent">
+                    The University Research and Development Services (URDS) is now accepting Research Proposals for the Academic Year 2024–2025. 
+                    Faculty researchers are encouraged to review the submission guidelines, ensure compliance with format and ethical requirements, 
+                    and submit proposals before the deadline.
+                    </p>
+
+                    <div class="announcement-detail-footer">
+                    <ul>
+                        <li><b>📅 Submission Deadline:</b> <span id="modalDeadline">October 13, 2025</span></li>
+                        <li><b>📝 Submission Platform:</b> URDS Research Portal or through your College Research Coordinator</li>
+                    </ul>
+                    <button class="guidelines-btn" onclick="window.location.href='../html/GeneralGuide.html'">Guidelines Available</button>
+                    <p class="inquiry">For inquiries: <a href="mailto:urds@uep.edu.ph">urds@uep.edu.ph</a></p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/CDannDboard.js"></script>
+    </body>
 </html>

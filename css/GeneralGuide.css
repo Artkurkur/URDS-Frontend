@@ -1,0 +1,281 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #e9f0ff, #f8fffb);
+  color: #222;
+  margin: 0;
+  padding: 0;
+  height: 94vh;
+}
+
+/* ✅ Center background logo */
+body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background: url('../asset/UEPlogo.png') no-repeat center center;
+  background-size: contain;
+  filter: blur(9px);
+  z-index: -1;
+  opacity: 0.7;
+}
+
+.page {
+  width: 80%;
+  height: 800px;
+  margin: 60px auto;
+  border: solid 1px black;
+  border-radius: 70px;
+  background: rgba(255, 255, 255, 0.174);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  padding: 30px;
+}
+
+/* HEADER BAR */
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.UEP-logo img {
+  width: 62px;
+  height: 52px;
+}
+
+.guideline-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.close-btn {
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: 0.2s;
+  color: #333;
+}
+
+.close-btn:hover {
+  color: #e74c3c;
+}
+
+/* MAIN CONTENT */
+.main-container {
+  padding: 30px 40px;
+}
+
+.intro-section p {
+  font-weight: 550;
+  font-size: 1rem;
+  letter-spacing: 0.8px;
+  line-height: 1.5;
+  text-align: justify;
+  margin-bottom: 20px;
+  padding: 0 90px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.267);
+}
+
+.note {
+  font-size: 0.95rem;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  line-height: 1.5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.267);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.08);
+}
+
+/* SCROLLABLE CONTENT */
+.content-wrapper {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.087);
+  height: 550px;
+  overflow-y: auto;
+  padding-right: 10px;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar */
+.content-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+.content-wrapper::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+.content-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+.content-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.left-panel, .right-panel {
+  flex: 1;
+  padding: 20px;
+}
+
+.section {
+  margin-bottom: 25px;
+}
+
+.section h4 {
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #1d3557;
+}
+
+.section ul {
+  list-style-type: disc;
+  padding-left: 40px;
+  line-height: 1.5;
+}
+
+.section p, .section a {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.section a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.section a:hover {
+  text-decoration: underline;
+}
+
+/* BUTTON + ICON */
+.button-logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.download-btn {
+  border: none;
+  background: #e8f1ff;
+  color: #1a3c88;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.download-btn:hover {
+  background: #d0e3ff;
+}
+
+.clipboard-icon {
+  width: 130px;
+  height: 130px;
+}
+
+/* ==============================================
+   📱 Responsive: Tablets and Mobile Phones
+   ============================================== */
+@media (max-width: 768px) {
+  html, body {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto !important; /* ✅ enables scrolling */
+    overflow-x: hidden;
+    display: block;
+  }
+
+  .page {
+    width: 92%;
+    height: auto; /* let it grow naturally */
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 30px;
+  }
+
+  .main-container {
+    padding: 20px;
+  }
+
+  .intro-section p {
+    font-size: 0.95rem;
+    padding: 0 10px 10px;
+  }
+
+  .content-wrapper {
+    flex-direction: column; /* stack panels vertically */
+    gap: 20px;
+    height: auto;
+    overflow-y: visible; /* let page handle scrolling */
+  }
+
+  .left-panel, .right-panel {
+    padding: 10px;
+  }
+
+  .guideline-title {
+    font-size: 1rem;
+  }
+
+  .button-logo-section {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .clipboard-icon {
+    width: 90px;
+    height: 90px;
+  }
+
+  .download-btn {
+    padding: 10px 18px;
+    font-size: 0.95rem;
+  }
+}
+
+/* 📱 Extra Small Phones (max 400px) */
+@media (max-width: 400px) {
+  .page {
+    width: 95%;
+    padding: 16px;
+    border-radius: 20px;
+    margin: 15px auto;
+  }
+
+  .intro-section p {
+    font-size: 0.9rem;
+    padding: 0 5px 10px;
+  }
+
+  .section p, .section ul, .section a {
+    font-size: 0.9rem;
+  }
+
+  .guideline-title {
+    font-size: 0.95rem;
+  }
+
+  .button-logo-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .clipboard-icon {
+    width: 70px;
+    height: 70px;
+  }
+}

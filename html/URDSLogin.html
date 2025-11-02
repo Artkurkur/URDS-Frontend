@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URDS Login | Registration</title>
+  <link rel="stylesheet" href="../css/URDSLogin.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Navigation -->
+    <nav class="nav">
+      <!-- HAMBURGER BUTTON (visible only on mobile) -->
+      <button id="hamburgerBtn" class="hamburger-btn" aria-label="Open menu">
+        ☰
+      </button>
+
+      <!-- MOBILE DRAWER -->
+      <nav id="mobileDrawer" class="mobile-drawer" aria-hidden="true">
+          <a href="#" class="link" data-target="home">Home</a>
+          <a href="#" class="link" data-target="services">Services</a>
+          <a href="#" class="link" data-target="about">About</a>
+          <a href="#" class="link" data-target="contact">Contact</a>
+          <hr>
+          <a href="#" id="drawerSignIn">Sign In</a>
+          <a href="#" id="drawerSignUp">Sign Up</a>
+      </nav>
+      
+      <div class="nav-logo">
+        <img src="../asset/UEPlogo.png" alt="uep-logo" class="uep-logo" />
+      </div>
+
+      <div class="nav-menu">
+        <ul>
+          <li><a href="#" class="link active">Home</a></li>
+          <li><a href="#" class="link">Services</a></li>
+          <li><a href="#" class="link">About</a></li>
+          <li><a href="#" class="link">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-button">
+        <button class="btn white-btn" id="loginBtn">Sign in</button>
+        <button class="btn" id="registerBtn">Sign up</button>
+      </div>
+    </nav>
+
+    <!-- Form Box -->
+    <div class="form-box">
+      <!-- Login Form -->
+      <div class="login-container" id="login">
+        <div class="top">
+          <span>Don't have an account? <a href="#" id="toRegister">Sign up</a></span>
+          <header>Login</header>
+        </div>
+
+        <div class="input-box">
+          <input type="text" class="input-field" placeholder="Username or Email" />
+          <img src="../asset/person_logo.png" alt="User" class="icon" />
+        </div>
+
+        <div class="input-box">
+          <input type="password" class="input-field" placeholder="Password" />
+          <img src="../asset/Lock.png" alt="Lock" class="icon" />
+        </div>
+
+        <input type="submit" class="submit" value="Sign In" />
+
+        <div class="two-col">
+          <div class="one">
+            <input type="checkbox" id="login-check" />
+            <label for="login-check">Remember Me</label>
+          </div>
+          <div class="two">
+            <a href="#">|Forgot password?</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Registration Form -->
+      <div class="register-container" id="register">
+        <div class="top">
+          <span>Have an account? <a href="#" id="toLogin">Login</a></span>
+          <header>Sign up</header>
+        </div>
+
+        <div class="two-forms">
+          <div class="input-box">
+            <input type="text" class="input-field" placeholder="Firstname" />
+            <img src="../asset/person_logo.png" alt="User" class="icon" />
+          </div>
+
+          <div class="input-box">
+            <input type="text" class="input-field" placeholder="Lastname" />
+            <img src="../asset/person_logo.png" alt="User" class="icon" />
+          </div>
+        </div>
+
+        <div class="input-box">
+          <input type="text" class="input-field" placeholder="Email" />
+          <img src="../asset/Envelope.png" alt="Envelope" class="icon" />
+        </div>
+
+        <div class="input-box">
+          <input type="password" class="input-field" placeholder="Password" />
+          <img src="../asset/Lock.png" alt="Lock" class="icon" />
+        </div>
+
+        <input type="submit" class="submit" value="Register" />
+
+        <div class="two-col">
+          <div class="one">
+            <input type="checkbox" id="register-check" />
+            <label for="register-check">Remember Me</label>
+          </div>
+          <div class="two">
+            <a href="#" id="showTerms">Terms & Conditions</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TERMS & CONDITIONS -->
+      <div class="container" id="terms">
+          <h2>Terms & Conditions</h2>
+          <p>By using URDS, you agree to the following terms and conditions:</p>
+            <ul>
+              <li>All data entered into this system must be accurate and truthful.</li>
+              <li>Users are responsible for maintaining the confidentiality of their login credentials.</li>
+              <li>URDS may modify or suspend services for maintenance or updates.</li>
+              <li>Unauthorized access or misuse of data is strictly prohibited.</li>
+              <li>By proceeding, you consent to the collection and use of data as described in our privacy policy.</li>
+            </ul>
+
+          <button id="backToSignup" class="back-btn">← Back to Sign Up</button>
+      </div>
+
+
+      <!-- HOME -->
+      <div class="container" id="home">
+        <h2>Welcome to URDS</h2>
+        <p>This is the home section content.</p>
+      </div>
+
+      <!-- SERVICES -->
+      <div class="container" id="services">
+          <h2>Our Services</h2>
+          <p>
+            The URDS System provides essential research management services to streamline proposal handling,
+            evaluation, and communication across the university.
+          </p>
+
+          <ul class="service-list">
+              <li><strong>Proposal Submission:</strong> Faculty Researchers can submit research proposals for review and evaluation.</li>
+              <li><strong>Proposal Evaluation:</strong> Senior Faculty Researchers and Evaluators assess, rate, and provide comments on proposals.</li>
+              <li><strong>Proposal Revision & Resubmission:</strong> Researchers may revise and resubmit their proposals based on TWG feedback.</li>
+              <li><strong>Announcement Dissemination:</strong> College Deans and Research Coordinators publish and distribute announcements to faculty.</li>
+              <li><strong>Automated Notifications:</strong> Users are automatically notified of updates, reviews, and decisions.</li>
+          </ul>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="container" id="about">
+          <h2>About the URDS System</h2>
+          <p>
+            The <strong>URDS System</strong> (University Research and Development Services)
+            is designed to enhance the research management process within the university.
+          </p>
+
+          <p>
+            It connects various academic stakeholders — from the <strong>URDS Director</strong>,
+            <strong>College Deans</strong>, and <strong>Research Coordinators</strong> to
+            <strong>Faculty Researchers</strong> and <strong>Evaluators</strong> — ensuring that proposals move efficiently
+            from submission to approval.
+          </p>
+
+          <p><strong>System Participants:</strong></p>
+          <ul class="about-list">
+              <li><strong>URDS Director:</strong> Announces and receives research proposals.</li>
+              <li><strong>College Dean:</strong> Evaluates proposals, provides feedback, and disseminates announcements.</li>
+              <li><strong>Research Coordinator:</strong> Forwards proposals and announcements to the faculty.</li>
+              <li><strong>Faculty Researchers:</strong> Submit, revise, and defend research proposals.</li>
+              <li><strong>Evaluators:</strong> Approve, rate, or terminate proposals based on criteria.</li>
+          </ul>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="container" id="contact">
+        <h2>Contact Us</h2>
+        <p>Have questions? Reach out to our support team at <strong>urds.support@gmail.com</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/URDSLogin.js"></script>
+</body>
+</html>

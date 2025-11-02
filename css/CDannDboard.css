@@ -341,10 +341,21 @@ body::before {
     margin-top: 6px; 
 }
 
-.time-tag-red { background: linear-gradient(180deg,#ff7a7a,#ff5252); }
-.time-tag-orange { background: linear-gradient(180deg,#ffb57a,#ff8a3d); }
-.time-tag-purple { background: linear-gradient(180deg,#b57aff,#8a52ff); }
-.time-tag-green { background: linear-gradient(180deg,#7affb5,#52ff8a); }
+.time-tag-red { 
+  background: linear-gradient(180deg,#ff7a7a,#ff5252); 
+}
+
+.time-tag-orange { 
+  background: linear-gradient(180deg,#ffb57a,#ff8a3d); 
+}
+
+.time-tag-purple { 
+  background: linear-gradient(180deg,#b57aff,#8a52ff); 
+}
+
+.time-tag-green { 
+  background: linear-gradient(180deg,#7affb5,#52ff8a); 
+}
 
 .history-content { flex: 1; }
 
@@ -379,3 +390,347 @@ body::before {
     transform: scaleX(-1); 
 }
 
+
+/* ---------- 📋 Announcement Modal ---------- */
+.announcement-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.announcement-modal.active {
+  display: flex;
+}
+
+.announcement-modal-content {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 24px 30px;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.close-modal {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+}
+
+.announcement-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.announcement-detail-header img {
+  width: 60px;
+  transform: scaleX(-1);
+}
+
+.announcement-detail-header h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #222;
+}
+
+.announcement-detail-body h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.announcement-detail-body p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.announcement-detail-footer {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.announcement-detail-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 12px;
+}
+
+.announcement-detail-footer li {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.guidelines-btn {
+  background: #2d9cdb;
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.guidelines-btn:hover {
+  background: #238ac3;
+}
+
+.inquiry {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.inquiry a {
+  color: #2d9cdb;
+  text-decoration: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* responsive */
+@media (max-width: 600px) {
+  .announcement-modal-content {
+    width: 92%;
+    padding: 18px;
+  }
+  .announcement-detail-header img {
+    width: 45px;
+  }
+  .announcement-detail-header h2 {
+    font-size: 1.1rem;
+  }
+}
+
+
+
+/* ---------- 📱 Mobile & Tablet Responsiveness ---------- */
+@media (max-width: 1024px) {
+  .main-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .holder-header {
+    width: 100vw;
+    margin-left: -10px;
+    padding-left: 70px;
+  }
+
+  .Mcontainer-holder {
+    height: auto;
+    padding: 10px;
+  }
+
+  .announcement-body {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .announcement-time {
+    min-width: unset;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .announcement-text {
+    width: 100%;
+    padding: 0;
+  }
+
+  .announcement-icon {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .announcement-icon img {
+    width: 60px;
+  }
+
+  .search-bar {
+    width: 60%;
+  }
+
+  .search-bar input {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  .ann-label {
+    font-size: 1.3rem;
+  }
+}
+
+/* ---------- Small tablets & large phones ---------- */
+@media (max-width: 768px) {
+  .header-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .URDS-logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .URDS {
+    font-size: 0.9rem;
+  }
+
+  .Univ-name {
+    font-size: 0.75rem;
+  }
+
+  .search-bar {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .holder-header {
+    padding-left: 65px;
+    font-size: 0.9rem;
+  }
+
+  .new-announcement-btn {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  .announcement-body {
+    gap: 10px;
+    border-radius: 8px;
+  }
+
+  .announcement-time {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .announcement-text p {
+    font-size: 0.9rem;
+  }
+
+  .announcement-footer {
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.8rem;
+  }
+
+  .total-notif {
+    top: 2px;
+    right: 8px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+
+  .grid-box {
+    gap: 10px;
+  }
+
+  .history-card {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .time-mini {
+    width: 60px;
+    height: 60px;
+    font-size: 0.8rem;
+  }
+
+  .history-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .history-content h4 {
+    font-size: 0.9rem;
+  }
+
+  .history-content p {
+    font-size: 0.85rem;
+  }
+}
+
+/* ---------- Small phones (≤480px) ---------- */
+@media (max-width: 480px) {
+  body {
+    padding: 8px;
+  }
+
+  .header-bar {
+    padding: 8px;
+  }
+
+  .URDS-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .ann-label {
+    font-size: 1.1rem;
+  }
+
+  .announcement-body {
+    padding: 10px;
+  }
+
+  .announcement-time .clock {
+    font-size: 1.1rem;
+  }
+
+  .announcement-text p {
+    font-size: 0.85rem;
+  }
+
+  .announcement-icon img {
+    width: 50px;
+  }
+
+  .holder-header {
+    padding-left: 50px;
+    width: 100vw;
+    margin-left: -10px;
+  }
+
+  .Mcontainer-holder {
+    padding: 8px;
+  }
+
+  .search-bar input {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .total-notif {
+    padding: 3px 6px;
+    font-size: 0.7rem;
+  }
+}

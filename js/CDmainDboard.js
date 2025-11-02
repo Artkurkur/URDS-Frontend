@@ -45,17 +45,33 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cards.length > 0) moveIndicator(cards[0]);
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const mainContainer = document.querySelector(".main-container");
-  const header = mainContainer.querySelector("h3");
+  const header = mainContainer?.querySelector("h3");
 
-  if (mainContainer && header) {
-    mainContainer.addEventListener("scroll", () => {
-      if (mainContainer.scrollTop > 10) {
-        header.style.display = "none";
-      } else {
-        header.style.display = "block";
-      }
-    });
+  // Function to toggle scroll behavior based on screen size
+  function applyScrollBehavior() {
+    if (window.matchMedia("(max-width: 768px)").matches) {
+      // Enable scroll listener for mobile view
+      mainContainer.addEventListener("scroll", handleScroll);
+    } else {
+      // Disable scroll listener and reset header visibility
+      mainContainer.removeEventListener("scroll", handleScroll);
+      if (header) header.style.display = "block";
+    }
   }
+
+  function handleScroll() {
+    if (mainContainer.scrollTop > 10) {
+      header.style.display = "none";
+    } else {
+      header.style.display = "block";
+    }
+  }
+
+  // Initial check
+  applyScrollBehavior();
+
+  // Listen for window resizing (desktop ↔ mobile transitions)
+  window.addEventListener("resize", applyScrollBehavior);
 });
