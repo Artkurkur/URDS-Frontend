@@ -368,6 +368,11 @@ h1 {
     color: #fff;
 }
 
+.status.rejected {
+    background: #f10707;
+    color: #fff;
+}
+
 .viewBtn {
     height: 40px;
     width: 40px;

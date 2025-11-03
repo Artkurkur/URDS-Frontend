@@ -75,3 +75,118 @@ document.addEventListener("DOMContentLoaded", function () {
   // Listen for window resizing (desktop ↔ mobile transitions)
   window.addEventListener("resize", applyScrollBehavior);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".cards-container .card");
+  const tableBody = document.getElementById("facultyTableBody");
+  const submissions = [
+    {
+      researcher: "Dr. Sarah Johnson",
+      email: "sarah.johnson@university.edu",
+      call: "Computer Science",
+      title: "Machine Learning Applications in Healthcare Diagnostics",
+      status: "pending",
+      date: "2024-02-15"
+    },
+    {
+      researcher: "Dr. Robert Kim",
+      email: "robart.kim@university.edu",
+      call: "Mechanical Engineering",
+      title: "Renewable Energy Storage Solutions",
+      status: "rejected",
+      date: "2024-02-15"
+    },
+    {
+      researcher: "Dr. Emily Cruz",
+      email: "emily.cruz@university.edu",
+      call: "Civil Engineering",
+      title: "Smart Infrastructure Monitoring using IoT Technologies",
+      status: "approved",
+      date: "2024-02-15"
+    },
+    {
+      researcher: "Dr. Sarah Johnson",
+      email: "sarah.johnson@university.edu",
+      call: "Computer Science",
+      title: "Machine Learning Applications in Healthcare Diagnostics",
+      status: "pending",
+      date: "2024-02-15"
+    },
+    {
+      researcher: "Dr. Robert Kim",
+      email: "robart.kim@university.edu",
+      call: "Mechanical Engineering",
+      title: "Renewable Energy Storage Solutions",
+      status: "pending",
+      date: "2024-02-15"
+    },
+    {
+      researcher: "Dr. Emily Cruz",
+      email: "emily.cruz@university.edu",
+      call: "Civil Engineering",
+      title: "Smart Infrastructure Monitoring using IoT Technologies",
+      status: "approved",
+      date: "2024-02-15"
+    },
+    {
+      researcher: "Dr. Sarah Johnson",
+      email: "sarah.johnson@university.edu",
+      call: "Computer Science",
+      title: "Machine Learning Applications in Healthcare Diagnostics",
+      status: "pending",
+      date: "2024-02-15"
+    },
+    {
+      researcher: "Dr. Robert Kim",
+      email: "robart.kim@university.edu",
+      call: "Mechanical Engineering",
+      title: "Renewable Energy Storage Solutions",
+      status: "pending",
+      date: "2024-02-15"
+    }
+  ];
+
+  // ✅ Populate table dynamically
+  submissions.forEach(item => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td><strong>${item.researcher}</strong><br>
+          <a href="mailto:${item.email}">${item.email}</a></td>
+      <td>${item.call}</td>
+      <td>${item.title}</td>
+      <td><span class="status ${item.status}">${item.status.charAt(0).toUpperCase() + item.status.slice(1)}</span></td>
+      <td>${item.date}</td>
+      <td><button class="viewBtn">👁️</button></td>
+    `;
+    tableBody.appendChild(row);
+  });
+
+  // ✅ Now that rows exist, attach filtering logic
+  const tableRows = document.querySelectorAll(".faculty-table tbody tr");
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      const cardClass =
+        card.classList.contains("pending")
+          ? "pending"
+          : card.classList.contains("approved")
+          ? "approved"
+          : card.classList.contains("rejected")
+          ? "rejected"
+          : "total";
+
+      tableRows.forEach(row => {
+        const statusCell = row.querySelector(".status");
+        if (!statusCell) return;
+
+        if (cardClass === "total") {
+          row.style.display = "";
+        } else {
+          row.style.display = statusCell.classList.contains(cardClass)
+            ? ""
+            : "none";
+        }
+      });
+    });
+  });
+});
