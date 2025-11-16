@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URDS Director Dashboard</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        height: 100vh;
+        padding: 0;
+        padding-left: 110px;
+        padding-right: 110px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        background: transparent;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-shrink: 0;
+      }
+
+      .logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .header h1 {
+        font-size: 20px;
+        color: #2c3e50;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 70px;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        gap: 15px;
+        z-index: 1000;
+        border-radius: 15px;
+      }
+
+      .sidebar-item {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: transparent;
+      }
+
+      .sidebar-item:hover {
+        background: #f1f5f9;
+        transform: scale(1.1);
+      }
+
+      .sidebar-item.active {
+        background: #e0e7ff;
+        border: 2px solid #3b82f6;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+      }
+
+      .sidebar-item.active:hover {
+        background: #c7d2fe;
+        transform: scale(1.1);
+      }
+
+      .sidebar-icon {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        transition: all 0.3s;
+      }
+
+      .sidebar-item:not(.active) .sidebar-icon {
+        opacity: 0.6;
+      }
+
+      .sidebar-item:hover .sidebar-icon {
+        opacity: 1;
+      }
+
+      .sidebar-item.active .sidebar-icon {
+        opacity: 1;
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #ef4444;
+        color: white;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: bold;
+      }
+
+      .main-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding: 0 20px 15px 20px;
+      }
+
+      .announcement-banner {
+        margin-bottom: 15px;
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .announcement-badge {
+        background: #3b82f6;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        position: relative;
+        z-index: 10;
+        margin-left: 20px;
+      }
+
+      .announcement-box {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid black;
+
+        margin-top: -8px;
+        padding-top: 25px;
+      }
+
+      .announcement-content {
+        display: flex;
+        gap: 15px;
+        align-items: flex-start;
+      }
+
+      .announcement-time {
+        background: #93c5fd;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-align: center;
+        min-width: 80px;
+      }
+
+      .time-label {
+        color: white;
+        font-size: 10px;
+        margin-bottom: 3px;
+      }
+
+      .time-value {
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .announcement-text {
+        flex: 1;
+      }
+
+      .announcement-text p {
+        margin-bottom: 8px;
+        color: #2c3e50;
+        line-height: 1.5;
+        font-size: 14px;
+      }
+
+      .announcement-meta {
+        display: flex;
+        gap: 15px;
+        font-size: 12px;
+        color: #64748b;
+      }
+
+      .announcement-meta a {
+        color: #3b82f6;
+        text-decoration: none;
+      }
+
+      .announcement-meta a:hover {
+        text-decoration: underline;
+      }
+
+      .announcement-icon {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+      }
+
+      .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+
+      .dashboard-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .uni-logo {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+        margin-right: 8px;
+      }
+
+      .dashboard-title h2 {
+        color: #64748b;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .dashboard-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .btn-primary {
+        background: white;
+        color: #2c3e50;
+        border: 2px solid #e2e8f0;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 1px solid black;
+      }
+
+      .btn-primary:hover {
+        background: #f8fafc;
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 1px solid black;
+      }
+
+      .btn-secondary:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+      }
+
+      .main-content {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        min-height: 0;
+        border: 1px solid black;
+      }
+
+      .proposals-section {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .proposals-section h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+
+      .proposals-table {
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 1;
+        padding-right: 10px;
+      }
+
+      .proposals-table::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .proposals-table::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 10px;
+      }
+
+      .proposals-table::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+      }
+
+      .proposals-table::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+
+      .table-header {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+        gap: 15px;
+        padding: 12px 15px;
+        background: #f8fafc;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-weight: 600;
+        color: #64748b;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+
+      .proposal-card {
+        display: grid;
+        grid-template-columns: 35px 2fr 1fr 1fr 1fr 1fr;
+        gap: 12px;
+        align-items: center;
+        padding: 15px 12px;
+        border: 1px solid #000000;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+
+      .proposal-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+        background: #f8fafc;
+      }
+
+      .proposal-icon {
+        width: 35px;
+        height: 35px;
+        object-fit: contain;
+      }
+
+      .proposal-info h4 {
+        color: #2c3e50;
+        margin-bottom: 4px;
+        font-size: 14px;
+      }
+
+      .proposal-info p {
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .proposal-date {
+        color: #64748b;
+        font-size: 13px;
+      }
+
+      .proposal-status {
+        text-align: center;
+      }
+
+      .status-badge {
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+      }
+
+      .status-badge.active {
+        background: #d1fae5;
+        color: #065f46;
+      }
+
+      .status-badge.close {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .proposal-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .icon-btn {
+        background: transparent;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 4px;
+        transition: all 0.3s;
+      }
+
+      .icon-btn:hover {
+        background: #f1f5f9;
+        transform: scale(1.2);
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+
+      .modal.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 15px;
+        padding: 40px;
+        width: 90%;
+        max-width: 700px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        position: relative;
+        animation: slideDown 0.3s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      .modal-close {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        background: transparent;
+        border: none;
+        font-size: 32px;
+        color: #94a3b8;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s;
+      }
+
+      .modal-close:hover {
+        background: #f1f5f9;
+        color: #64748b;
+      }
+
+      .modal-title {
+        font-size: 24px;
+        color: #2c3e50;
+        margin-bottom: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      .form-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: inherit;
+        resize: vertical;
+        transition: all 0.3s;
+      }
+
+      .form-textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .file-upload {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        background: white;
+      }
+
+      .file-button {
+        padding: 8px 16px;
+        background: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #475569;
+        transition: all 0.3s;
+      }
+
+      .file-button:hover {
+        background: #e2e8f0;
+      }
+
+      .file-text {
+        color: #94a3b8;
+        font-size: 14px;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      .btn-cancel {
+        padding: 12px 30px;
+        background: #f1f5f9;
+        color: #64748b;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-cancel:hover {
+        background: #e2e8f0;
+      }
+
+      .btn-post {
+        padding: 12px 30px;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-post:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      }
+
+      .view-content {
+        padding: 10px 0;
+      }
+
+      .view-section {
+        margin-bottom: 25px;
+      }
+
+      .view-label {
+        display: block;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .view-text {
+        color: #2c3e50;
+        font-size: 15px;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .view-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      @media (max-width: 1024px) {
+        body {
+          padding-left: 0;
+        }
+
+        .sidebar {
+          display: none;
+        }
+
+        .table-header {
+          display: none;
+        }
+
+        .proposal-card {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">UEP</div>
+      <h1>University Research & Development Services</h1>
+    </header>
+
+    <div class="sidebar">
+      <div class="sidebar-item active" data-page="home">
+        <img src="images/index.png" alt="Home" class="sidebar-icon" />
+      </div>
+      <div class="sidebar-item" data-page="lib">
+        <img src="images/lib.png" alt="Library" class="sidebar-icon" />
+      </div>
+      <div class="sidebar-item" data-page="announcement">
+        <img
+          src="images/announcement.png"
+          alt="Announcements"
+          class="sidebar-icon"
+        />
+        <div class="notification-badge">2</div>
+      </div>
+      <div class="sidebar-item" data-page="course">
+        <img src="images/course.png" alt="Courses" class="sidebar-icon" />
+      </div>
+    </div>
+
+    <div class="main-container">
+      <div class="announcement-banner" id="announcementBanner">
+        <div class="announcement-badge">New Announcement</div>
+        <div class="announcement-box">
+          <div class="announcement-content">
+            <div class="announcement-time" id="announcementTime">
+              <div class="time-label">TODAY</div>
+              <div class="time-value" id="currentTime">17:00</div>
+            </div>
+            <div class="announcement-text">
+              <p id="announcementText">
+                <strong
+                  >The University Research and Development Services (URDS) is
+                  now accepting Research Proposals for the Academic Year
+                  2024-2025.</strong
+                >
+                Please review the guidelines and submit your proposal before the
+                deadline.
+              </p>
+              <div class="announcement-meta">
+                <span id="announcementDeadline"
+                  >📄 Deadline - Oct 13, 2025</span
+                >
+                <span
+                  >📋 Guidelines Available -
+                  <a href="announcement.html" id="viewAllLink"
+                    >View All</a
+                  ></span
+                >
+              </div>
+            </div>
+            <img
+              src="images/announcement.png"
+              alt="Megaphone"
+              class="announcement-icon"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h2>URDS DIRECTOR DASHBOARD</h2>
+        </div>
+        <div class="dashboard-actions">
+          <img
+            src="images/ueplogo.png"
+            alt="University Logo"
+            class="uni-logo"
+          />
+          <button class="btn-secondary" id="submissionsBtn">Submissions</button>
+          <button class="btn-primary" id="createNewBtn">
+            + Create New Call For Proposals
+          </button>
+        </div>
+      </div>
+
+      <main class="main-content">
+        <div class="proposals-section">
+          <h3>Posted Calls for Proposals</h3>
+
+          <div class="proposals-table">
+            <div class="table-header">
+              <div class="col-title">Title</div>
+              <div class="col-date">Start Date</div>
+              <div class="col-date">Deadline</div>
+              <div class="col-status">Status</div>
+              <div class="col-actions">Actions</div>
+            </div>
+
+            <div class="proposal-card" data-id="1">
+              <img
+                src="images/research.png"
+                alt="Research"
+                class="proposal-icon"
+              />
+              <div class="proposal-info">
+                <h4>Research Grants for Academic Year 2024-2025</h4>
+                <p>
+                  The University Research and Development Services (URDS) is now
+                  accepting Research Proposals for the...
+                </p>
+              </div>
+              <div class="proposal-date">2025-06-15</div>
+              <div class="proposal-date">2025-08-20</div>
+              <div class="proposal-status">
+                <span class="status-badge active">Active</span>
+              </div>
+              <div class="proposal-actions">
+                <button class="icon-btn edit-btn" title="Edit">✏️</button>
+                <button class="icon-btn delete-btn" title="Delete">🗑️</button>
+              </div>
+            </div>
+
+            <div class="proposal-card" data-id="2">
+              <img
+                src="images/research.png"
+                alt="Research"
+                class="proposal-icon"
+              />
+              <div class="proposal-info">
+                <h4>Summer Research Initiative 2024</h4>
+                <p>
+                  Special funding opportunity for summer research projects
+                  focusing on interdisciplinary collaboration...
+                </p>
+              </div>
+              <div class="proposal-date">2025-10-20</div>
+              <div class="proposal-date">2025-10-31</div>
+              <div class="proposal-status">
+                <span class="status-badge active">Active</span>
+              </div>
+              <div class="proposal-actions">
+                <button class="icon-btn edit-btn" title="Edit">✏️</button>
+                <button class="icon-btn delete-btn" title="Delete">🗑️</button>
+              </div>
+            </div>
+
+            <div class="proposal-card" data-id="3">
+              <img
+                src="images/research.png"
+                alt="Research"
+                class="proposal-icon"
+              />
+              <div class="proposal-info">
+                <h4>Technology Innovation Fund</h4>
+                <p>
+                  Funding for research projects that demonstrate potential for
+                  technological innovation and commercial...
+                </p>
+              </div>
+              <div class="proposal-date">2025-09-14</div>
+              <div class="proposal-date">2025-09-20</div>
+              <div class="proposal-status">
+                <span class="status-badge close">Close</span>
+              </div>
+              <div class="proposal-actions">
+                <button class="icon-btn edit-btn" title="Edit">✏️</button>
+                <button class="icon-btn delete-btn" title="Delete">🗑️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div id="createModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" id="closeModal">&times;</button>
+        <h2 class="modal-title">Create New Call for Proposal</h2>
+
+        <form id="proposalForm">
+          <div class="form-group">
+            <label>Title of Call</label>
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Enter title"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Description / Guidelines</label>
+            <textarea
+              class="form-textarea"
+              rows="5"
+              placeholder="Enter description and guidelines"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Start Date</label>
+              <input
+                type="text"
+                class="form-input"
+                placeholder="dd/mm/yy"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>End Date</label>
+              <input
+                type="text"
+                class="form-input"
+                placeholder="dd/mm/yy"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Attachments (PDF Guidelines, Forms)</label>
+            <div class="file-upload">
+              <button type="button" class="file-button">Choose Files</button>
+              <span class="file-text">No file chosen</span>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="cancelBtn">
+              Cancel
+            </button>
+            <button type="submit" class="btn-post">Post Announcement</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" id="closeEditModal">&times;</button>
+        <h2 class="modal-title">Edit Call for Proposal</h2>
+
+        <form id="editProposalForm">
+          <input type="hidden" id="editProposalId" />
+
+          <div class="form-group">
+            <label>Title of Call</label>
+            <input
+              type="text"
+              id="editTitle"
+              class="form-input"
+              placeholder="Enter title"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Description / Guidelines</label>
+            <textarea
+              id="editDescription"
+              class="form-textarea"
+              rows="5"
+              placeholder="Enter description and guidelines"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Start Date</label>
+              <input
+                type="text"
+                id="editStartDate"
+                class="form-input"
+                placeholder="dd/mm/yy"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>End Date</label>
+              <input
+                type="text"
+                id="editEndDate"
+                class="form-input"
+                placeholder="dd/mm/yy"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Attachments (PDF Guidelines, Forms)</label>
+            <div class="file-upload">
+              <button type="button" class="file-button">Choose Files</button>
+              <span class="file-text">No file chosen</span>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="cancelEditBtn">
+              Cancel
+            </button>
+            <button type="submit" class="btn-post">Update Announcement</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="viewModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" id="closeViewModal">&times;</button>
+        <h2 class="modal-title" id="viewTitle">Proposal Details</h2>
+
+        <div class="view-content">
+          <div class="view-section">
+            <label class="view-label">Title of Call</label>
+            <p class="view-text" id="viewTitleText"></p>
+          </div>
+
+          <div class="view-section">
+            <label class="view-label">Description / Guidelines</label>
+            <p class="view-text" id="viewDescriptionText"></p>
+          </div>
+
+          <div class="view-row">
+            <div class="view-section">
+              <label class="view-label">Start Date</label>
+              <p class="view-text" id="viewStartDate"></p>
+            </div>
+            <div class="view-section">
+              <label class="view-label">End Date</label>
+              <p class="view-text" id="viewEndDate"></p>
+            </div>
+          </div>
+
+          <div class="view-section">
+            <label class="view-label">Status</label>
+            <p class="view-text" id="viewStatus"></p>
+          </div>
+
+          <div class="view-section">
+            <label class="view-label">Attachments</label>
+            <p class="view-text" style="color: #94a3b8">
+              No attachments available
+            </p>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="closeViewBtn">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function updateAnnouncementBanner(title, description, deadline) {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+
+        document.getElementById(
+          "currentTime"
+        ).textContent = `${hours}:${minutes}`;
+        document.getElementById(
+          "announcementText"
+        ).innerHTML = `<strong>${title}</strong> ${description}`;
+        document.getElementById(
+          "announcementDeadline"
+        ).textContent = `📄 Deadline - ${deadline}`;
+
+        const banner = document.getElementById("announcementBanner");
+        banner.style.animation = "pulse 0.5s ease";
+        setTimeout(() => {
+          banner.style.animation = "";
+        }, 500);
+      }
+
+      function updateToMostRecentProposal() {
+        const proposals = document.querySelectorAll(".proposal-card");
+        if (proposals.length > 0) {
+          const mostRecent = proposals[0];
+          const title = mostRecent.querySelector("h4").textContent;
+          const description = mostRecent.querySelector("p").textContent;
+          const dates = mostRecent.querySelectorAll(".proposal-date");
+          const deadline = dates[1].textContent;
+
+          updateAnnouncementBanner(
+            `The University Research and Development Services (URDS) is now accepting "${title}"`,
+            description,
+            deadline
+          );
+        } else {
+          updateAnnouncementBanner(
+            "The University Research and Development Services (URDS) is now accepting Research Proposals for the Academic Year 2024-2025.",
+            "Please review the guidelines and submit your proposal before the deadline.",
+            "Oct 13, 2025"
+          );
+        }
+      }
+
+      // Fixed sidebar navigation
+      document.querySelectorAll(".sidebar-item").forEach((item) => {
+        item.addEventListener("click", function () {
+          const page = this.dataset.page;
+
+          switch (page) {
+            case "home":
+              // Already on home page (index.html)
+              console.log("Already on home page");
+              break;
+            case "lib":
+              window.location.href = "lib.html";
+              break;
+            case "announcement":
+              window.location.href = "announcement.html";
+              break;
+            case "course":
+              window.location.href = "course.html";
+              break;
+          }
+        });
+      });
+
+      document
+        .getElementById("createNewBtn")
+        .addEventListener("click", function () {
+          document.getElementById("createModal").classList.add("show");
+        });
+
+      document
+        .getElementById("closeModal")
+        .addEventListener("click", function () {
+          document.getElementById("createModal").classList.remove("show");
+        });
+
+      document
+        .getElementById("cancelBtn")
+        .addEventListener("click", function () {
+          document.getElementById("createModal").classList.remove("show");
+        });
+
+      document
+        .getElementById("createModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            this.classList.remove("show");
+          }
+        });
+
+      document
+        .getElementById("closeEditModal")
+        .addEventListener("click", function () {
+          document.getElementById("editModal").classList.remove("show");
+        });
+
+      document
+        .getElementById("cancelEditBtn")
+        .addEventListener("click", function () {
+          document.getElementById("editModal").classList.remove("show");
+        });
+
+      document
+        .getElementById("editModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            this.classList.remove("show");
+          }
+        });
+
+      document
+        .getElementById("closeViewModal")
+        .addEventListener("click", function () {
+          document.getElementById("viewModal").classList.remove("show");
+        });
+
+      document
+        .getElementById("closeViewBtn")
+        .addEventListener("click", function () {
+          document.getElementById("viewModal").classList.remove("show");
+        });
+
+      document
+        .getElementById("viewModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            this.classList.remove("show");
+          }
+        });
+
+      document
+        .getElementById("proposalForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const title = this.querySelector('input[type="text"]').value;
+          const description = this.querySelector("textarea").value;
+          const startDate =
+            this.querySelectorAll('input[type="text"]')[1].value;
+          const endDate = this.querySelectorAll('input[type="text"]')[2].value;
+
+          updateAnnouncementBanner(
+            `The University Research and Development Services (URDS) is now accepting "${title}"`,
+            "Please review the guidelines and submit your proposal before the deadline.",
+            endDate
+          );
+
+          const proposalsTable = document.querySelector(".proposals-table");
+          const newId = Date.now();
+
+          const newCard = document.createElement("div");
+          newCard.className = "proposal-card";
+          newCard.dataset.id = newId;
+          newCard.innerHTML = `
+        <img src="images/research.png" alt="Research" class="proposal-icon" />
+        <div class="proposal-info">
+            <h4>${title}</h4>
+            <p>${description.substring(0, 80)}...</p>
+        </div>
+        <div class="proposal-date">${startDate}</div>
+        <div class="proposal-date">${endDate}</div>
+        <div class="proposal-status">
+            <span class="status-badge active">Active</span>
+        </div>
+        <div class="proposal-actions">
+            <button class="icon-btn edit-btn" title="Edit">✏️</button>
+            <button class="icon-btn delete-btn" title="Delete">🗑️</button>
+        </div>
+    `;
+
+          // Add click event to the new card for viewing
+          newCard.addEventListener("click", function (e) {
+            // Don't open view modal if clicking on action buttons
+            if (
+              !e.target.classList.contains("icon-btn") &&
+              !e.target.closest(".icon-btn")
+            ) {
+              const cardTitle = this.querySelector("h4").textContent;
+              const cardDescription = this.querySelector("p").textContent;
+              const dates = this.querySelectorAll(".proposal-date");
+              const cardStartDate = dates[0].textContent;
+              const cardEndDate = dates[1].textContent;
+              const status = this.querySelector(".status-badge").textContent;
+
+              document.getElementById("viewTitleText").textContent = cardTitle;
+              document.getElementById("viewDescriptionText").textContent =
+                cardDescription;
+              document.getElementById("viewStartDate").textContent =
+                cardStartDate;
+              document.getElementById("viewEndDate").textContent = cardEndDate;
+              document.getElementById(
+                "viewStatus"
+              ).innerHTML = `<span class="status-badge ${status.toLowerCase()}">${status}</span>`;
+
+              document.getElementById("viewModal").classList.add("show");
+            }
+          });
+
+          newCard
+            .querySelector(".edit-btn")
+            .addEventListener("click", function (e) {
+              e.stopPropagation();
+              const card = this.closest(".proposal-card");
+              const id = card.dataset.id;
+              const title = card.querySelector("h4").textContent;
+              const description = card.querySelector("p").textContent;
+              const dates = card.querySelectorAll(".proposal-date");
+              const startDate = dates[0].textContent;
+              const endDate = dates[1].textContent;
+
+              document.getElementById("editProposalId").value = id;
+              document.getElementById("editTitle").value = title;
+              document.getElementById("editDescription").value = description;
+              document.getElementById("editStartDate").value = startDate;
+              document.getElementById("editEndDate").value = endDate;
+
+              document.getElementById("editModal").classList.add("show");
+            });
+
+          newCard
+            .querySelector(".delete-btn")
+            .addEventListener("click", function (e) {
+              e.stopPropagation();
+              const card = this.closest(".proposal-card");
+              const title = card.querySelector("h4").textContent;
+              if (confirm(`Are you sure you want to delete: ${title}?`)) {
+                card.style.opacity = "0";
+                setTimeout(() => {
+                  card.remove();
+                  updateToMostRecentProposal();
+                }, 300);
+              }
+            });
+
+          const tableHeader = proposalsTable.querySelector(".table-header");
+          tableHeader.insertAdjacentElement("afterend", newCard);
+
+          newCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+          alert("Proposal posted successfully!");
+
+          document.getElementById("createModal").classList.remove("show");
+          this.reset();
+        });
+
+      document
+        .getElementById("editProposalForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const id = document.getElementById("editProposalId").value;
+          const title = document.getElementById("editTitle").value;
+          const description = document.getElementById("editDescription").value;
+          const startDate = document.getElementById("editStartDate").value;
+          const endDate = document.getElementById("editEndDate").value;
+
+          const card = document.querySelector(`[data-id="${id}"]`);
+          if (card) {
+            card.querySelector("h4").textContent = title;
+            card.querySelector("p").textContent =
+              description.substring(0, 80) + "...";
+            const dates = card.querySelectorAll(".proposal-date");
+            dates[0].textContent = startDate;
+            dates[1].textContent = endDate;
+
+            card.style.background = "#f0f9ff";
+            setTimeout(() => {
+              card.style.background = "";
+            }, 1000);
+          }
+
+          alert("Proposal updated successfully!");
+          document.getElementById("editModal").classList.remove("show");
+        });
+
+      document
+        .getElementById("submissionsBtn")
+        .addEventListener("click", function () {
+          alert("Navigating to Submissions page...");
+        });
+
+      document
+        .getElementById("viewAllLink")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          window.location.href = "announcement.html";
+        });
+
+      document.querySelectorAll(".edit-btn").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          const card = this.closest(".proposal-card");
+          const id = card.dataset.id;
+          const title = card.querySelector("h4").textContent;
+          const description = card.querySelector("p").textContent;
+          const dates = card.querySelectorAll(".proposal-date");
+          const startDate = dates[0].textContent;
+          const endDate = dates[1].textContent;
+
+          document.getElementById("editProposalId").value = id;
+          document.getElementById("editTitle").value = title;
+          document.getElementById("editDescription").value = description;
+          document.getElementById("editStartDate").value = startDate;
+          document.getElementById("editEndDate").value = endDate;
+
+          document.getElementById("editModal").classList.add("show");
+        });
+      });
+
+      document.querySelectorAll(".delete-btn").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          const card = this.closest(".proposal-card");
+          const title = card.querySelector("h4").textContent;
+          if (confirm(`Are you sure you want to delete: ${title}?`)) {
+            card.style.opacity = "0";
+            setTimeout(() => {
+              card.remove();
+              updateToMostRecentProposal();
+            }, 300);
+          }
+        });
+      });
+
+      // Add click event to all existing proposal cards for viewing
+      document.querySelectorAll(".proposal-card").forEach((card) => {
+        card.addEventListener("click", function (e) {
+          // Don't open view modal if clicking on action buttons
+          if (
+            !e.target.classList.contains("icon-btn") &&
+            !e.target.closest(".icon-btn")
+          ) {
+            const title = this.querySelector("h4").textContent;
+            const description = this.querySelector("p").textContent;
+            const dates = this.querySelectorAll(".proposal-date");
+            const startDate = dates[0].textContent;
+            const endDate = dates[1].textContent;
+            const status = this.querySelector(".status-badge").textContent;
+
+            document.getElementById("viewTitleText").textContent = title;
+            document.getElementById("viewDescriptionText").textContent =
+              description;
+            document.getElementById("viewStartDate").textContent = startDate;
+            document.getElementById("viewEndDate").textContent = endDate;
+            document.getElementById(
+              "viewStatus"
+            ).innerHTML = `<span class="status-badge ${status.toLowerCase()}">${status}</span>`;
+
+            document.getElementById("viewModal").classList.add("show");
+          }
+        });
+      });
+
+      // Update time on page load
+      window.addEventListener("DOMContentLoaded", function () {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        document.getElementById(
+          "currentTime"
+        ).textContent = `${hours}:${minutes}`;
+      });
+    </script>
+  </body>
+</html>
