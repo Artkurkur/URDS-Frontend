@@ -460,9 +460,7 @@
       <div class="sidebar-item" data-page="home">
         <img src="images/index.png" alt="Home" class="sidebar-icon" />
       </div>
-      <div class="sidebar-item" data-page="lib">
-        <img src="images/lib.png" alt="Library" class="sidebar-icon" />
-      </div>
+
       <div class="sidebar-item" data-page="announcement">
         <img
           src="images/announcement.png"
@@ -651,9 +649,24 @@
               style="color: #3b82f6; font-size: 24px"
             ></strong>
           </p>
-          <p style="color: #999; font-size: 13px">
-            Click to view detailed submission list
-          </p>
+          <!-- Replace paragraph with button -->
+          <button
+            id="viewDetailsBtn"
+            style="
+              background: #3b82f6;
+              color: white;
+              border: none;
+              padding: 8px 20px;
+              border-radius: 8px;
+              font-size: 14px;
+              cursor: pointer;
+              transition: all 0.3s;
+              margin-top: 10px;
+            "
+            onclick="viewDepartmentDetails()"
+          >
+            View Detailed Submission List
+          </button>
         </div>
       </div>
     </div>
@@ -731,6 +744,15 @@
           document.getElementById("detailModal").classList.add("show");
         });
       });
+
+      // Function to navigate to department.html with college parameter
+      function viewDepartmentDetails() {
+        const selectedCollege =
+          document.getElementById("modalCollegeName").textContent;
+        // Encode the college name for URL safety
+        const encodedCollege = encodeURIComponent(selectedCollege);
+        window.location.href = `department.html?college=${encodedCollege}`;
+      }
 
       // Close modal
       document
