@@ -46,6 +46,9 @@ export default function StudyCard({
 
   const submittedCnt = study.submissions.filter(s => s.status === "submitted").length;
   const draftCnt     = study.submissions.filter(s => s.status === "draft").length;
+  
+  // Get the total count of files
+  const fileCount = study.submissions.length;
 
   return (
     <div
@@ -62,7 +65,11 @@ export default function StudyCard({
         <div className="flex-grow">
           <span className="text-[10px] text-gray-400 uppercase font-bold">Research Title</span>
           <h2 className="font-bold text-lg text-gray-800">{study.title}</h2>
-          <p className="text-xs text-gray-500">Chapter {study.chapter}</p>
+          
+          {/* 🟢 UPDATE: Removed study.chapter, replaced with File Count */}
+          <p className="text-xs text-gray-500 font-medium">
+            {fileCount} {fileCount === 1 ? "File" : "Files"} Inside
+          </p>
         </div>
 
         <div className="flex items-center gap-3">
