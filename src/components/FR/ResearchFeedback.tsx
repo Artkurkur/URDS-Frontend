@@ -1,7 +1,9 @@
 "use client";
 
-import React from 'react';
-import { X, FileEdit, Folder, MessageSquare, Lightbulb } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, FileEdit, Folder, MessageSquare, Lightbulb, BookOpen } from 'lucide-react';
+// Import the Guidelines Modal (Ensure this file exists in your components folder)
+import ResearchGuidelinesModal from './ResearchGuidelinesModal'; 
 
 export interface ResearchFeedbackProps {
   isOpen: boolean;
@@ -29,12 +31,15 @@ const ResearchFeedback: React.FC<ResearchFeedbackProps> = ({
   onViewFile,
   feedbackText,
   specificSuggestionsText,
-  statuses = [], // Keep empty array as fallback to prevent map error
+  statuses = [], 
   selectedStatusIndex,
 }) => {
+  // 1. State to control the Guidelines Modal
+  const [isGuidelinesOpen, setIsGuidelinesOpen] = useState(false);
+
   if (!isOpen) return null;
 
-  // Custom icons to match the design
+  // Custom icons
   const FeedbackIcon = () => (
     <div className="relative">
       <MessageSquare className="text-blue-600 w-12 h-12" fill="currentColor" />
@@ -51,113 +56,135 @@ const ResearchFeedback: React.FC<ResearchFeedbackProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto overflow-x-hidden bg-transparent bg-opacity-50 outline-none focus:outline-none">
-      <div className="relative w-full max-w-5xl mx-auto my-6 p-4">
-        <div className="relative flex flex-col w-full bg-white rounded-[30px] border-[3px] border-purple-600 shadow-lg outline-none focus:outline-none mt-16 p-8 pt-12 animate-in fade-in zoom-in duration-200">
-          
-          {/* Header Elements (Overlapping) */}
-          <div className="absolute -top-12 left-10 bg-[#6200EA] text-white rounded-2xl p-3 text-center shadow-md">
-            <div className="text-xs font-semibold">TODAY</div>
-            <div className="text-2xl font-bold">{time}</div>
-          </div>
-          <div className="absolute -top-5 left-40 bg-[#7C4DFF] text-white rounded-t-lg px-6 py-2 text-sm font-semibold shadow-sm">
-            Revision Topic: {topic}
-          </div>
-          <div className="absolute -top-5 right-40 bg-[#7C4DFF] text-white rounded-t-lg px-6 py-2 text-sm font-semibold shadow-sm">
-            {date}
-          </div>
-
-          {/* Close Button */}
-          <button
-            className="absolute top-4 right-4 p-1 bg-transparent border-0 text-gray-400 opacity-50 hover:opacity-100 hover:text-red-500 text-3xl leading-none font-semibold outline-none focus:outline-none transition-all"
-            onClick={onClose}
-          >
-            <X className="w-8 h-8" />
-          </button>
-
-          {/* Content */}
-          <div className="flex flex-col space-y-8">
-            {/* Chapter 1 Section */}
-            <div className="relative bg-white rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-6 border border-gray-100 mt-4">
-              <div className="absolute -top-4 left-6 bg-[#1976D2] text-white rounded-t-lg px-6 py-1.5 text-sm font-semibold shadow-sm">
-                {chapterTitle}
-              </div>
-              <div className="flex items-start mt-4">
-                <div className="mr-6 p-2">
-                  <FileEdit className="w-12 h-12 text-[#1976D2]" />
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed flex-1">
-                  {revisionInstruction}
-                </p>
-              </div>
-              <button
-                className="absolute top-6 right-6 flex flex-col items-center justify-center group"
-                onClick={onViewFile}
-              >
-                <Folder className="w-10 h-10 text-yellow-500 group-hover:text-yellow-600 transition-colors" fill="currentColor" />
-                <span className="text-[#1976D2] text-xs font-semibold mt-1 group-hover:text-blue-800 transition-colors">View File</span>
-              </button>
+    <>
+      <div className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto overflow-x-hidden bg-transparent bg-opacity-50 outline-none focus:outline-none">
+        <div className="relative w-full max-w-5xl mx-auto my-6 p-4">
+          <div className="relative flex flex-col w-full bg-white rounded-[30px] border-[3px] border-purple-600 shadow-lg outline-none focus:outline-none mt-16 p-8 pt-12 animate-in fade-in zoom-in duration-200">
+            
+            {/* Header Elements (Overlapping) */}
+            <div className="absolute -top-12 left-10 bg-[#6200EA] text-white rounded-2xl p-3 text-center shadow-md">
+              <div className="text-xs font-semibold">TODAY</div>
+              <div className="text-2xl font-bold">{time}</div>
+            </div>
+            <div className="absolute -top-5 left-40 bg-[#7C4DFF] text-white rounded-t-lg px-6 py-2 text-sm font-semibold shadow-sm">
+              Revision Topic: {topic}
+            </div>
+            <div className="absolute -top-5 right-40 bg-[#7C4DFF] text-white rounded-t-lg px-6 py-2 text-sm font-semibold shadow-sm">
+              {date}
             </div>
 
-            {/* Feedback Section */}
-            <div className="relative bg-white rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-6 border border-gray-100">
-              <div className="absolute -top-4 left-6 bg-[#FF5722] text-white rounded-t-lg px-6 py-1.5 text-sm font-semibold shadow-sm">
-                Feedback
+            {/* 2. New "Available Guidelines" Button */}
+            <button
+              onClick={() => setIsGuidelinesOpen(true)}
+              className="absolute top-6 left-6 flex items-center gap-2 text-purple-700 hover:text-purple-900 transition-colors group z-10"
+            >
+              <div className="p-2 bg-purple-100 rounded-full group-hover:bg-purple-200 transition-colors">
+                <BookOpen size={20} />
               </div>
-              <div className="flex items-start mt-4">
-                <div className="mr-6 p-2">
-                  <FeedbackIcon />
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed flex-1">
-                  {feedbackText}
-                </p>
-              </div>
-            </div>
+              <span className="text-sm font-semibold underline decoration-purple-300 underline-offset-4 group-hover:decoration-purple-500">
+                Available Guidelines
+              </span>
+            </button>
 
-            {/* Specific Suggestions Section */}
-            <div className="relative bg-white rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-6 border border-gray-100">
-              <div className="absolute -top-4 left-6 bg-[#FFC107] text-white rounded-t-lg px-6 py-1.5 text-sm font-semibold shadow-sm">
-                Specific Suggestions
-              </div>
-              <div className="flex items-start mt-4">
-                <div className="mr-6 p-2">
-                  <LightbulbIcon />
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed flex-1">
-                  {specificSuggestionsText}
-                </p>
-              </div>
-            </div>
+            {/* Close Button */}
+            <button
+              className="absolute top-4 right-4 p-1 bg-transparent border-0 text-gray-400 opacity-50 hover:opacity-100 hover:text-red-500 text-3xl leading-none font-semibold outline-none focus:outline-none transition-all"
+              onClick={onClose}
+            >
+              <X className="w-8 h-8" />
+            </button>
 
-            {/* Approved Status Section */}
-            <div className="relative mt-6">
-              <div className="absolute -top-4 left-6 bg-[#C67CFF] text-white rounded-t-lg px-6 py-1.5 text-sm font-semibold shadow-sm z-10">
-                Approved Status
-              </div>
-              <div className="bg-white rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-6 border border-gray-100 flex justify-around items-center pt-8">
-                {statuses.map((status, index) => (
-                  <div key={index} className="flex items-center cursor-default">
-                    <div
-                      className={`w-6 h-6 rounded-full border-2 mr-2 flex items-center justify-center transition-all duration-200 ${
-                        index === selectedStatusIndex
-                          ? 'border-[#1976D2] bg-[#1976D2]'
-                          : 'border-gray-400 bg-white'
-                      }`}
-                    >
-                      {index === selectedStatusIndex && (
-                        <div className="w-2.5 h-2.5 rounded-full bg-white" />
-                      )}
-                    </div>
-                    <span className={`text-sm font-medium ${index === selectedStatusIndex ? 'text-[#1976D2]' : 'text-gray-700'}`}>{status}</span>
+            {/* Content */}
+            <div className="flex flex-col space-y-8">
+              {/* Chapter 1 Section */}
+              <div className="relative bg-white rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-6 border border-gray-100 mt-4">
+                <div className="absolute -top-4 left-6 bg-[#1976D2] text-white rounded-t-lg px-6 py-1.5 text-sm font-semibold shadow-sm">
+                  {chapterTitle}
+                </div>
+                <div className="flex items-start mt-4">
+                  <div className="mr-6 p-2">
+                    <FileEdit className="w-12 h-12 text-[#1976D2]" />
                   </div>
-                ))}
+                  <p className="text-gray-700 text-sm leading-relaxed flex-1">
+                    {revisionInstruction}
+                  </p>
+                </div>
+                <button
+                  className="absolute top-6 right-6 flex flex-col items-center justify-center group"
+                  onClick={onViewFile}
+                >
+                  <Folder className="w-10 h-10 text-yellow-500 group-hover:text-yellow-600 transition-colors" fill="currentColor" />
+                  <span className="text-[#1976D2] text-xs font-semibold mt-1 group-hover:text-blue-800 transition-colors">View File</span>
+                </button>
               </div>
-            </div>
 
+              {/* Feedback Section */}
+              <div className="relative bg-white rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-6 border border-gray-100">
+                <div className="absolute -top-4 left-6 bg-[#FF5722] text-white rounded-t-lg px-6 py-1.5 text-sm font-semibold shadow-sm">
+                  Feedback
+                </div>
+                <div className="flex items-start mt-4">
+                  <div className="mr-6 p-2">
+                    <FeedbackIcon />
+                  </div>
+                  <p className="text-gray-700 text-sm leading-relaxed flex-1">
+                    {feedbackText}
+                  </p>
+                </div>
+              </div>
+
+              {/* Specific Suggestions Section */}
+              <div className="relative bg-white rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-6 border border-gray-100">
+                <div className="absolute -top-4 left-6 bg-[#FFC107] text-white rounded-t-lg px-6 py-1.5 text-sm font-semibold shadow-sm">
+                  Specific Suggestions
+                </div>
+                <div className="flex items-start mt-4">
+                  <div className="mr-6 p-2">
+                    <LightbulbIcon />
+                  </div>
+                  <p className="text-gray-700 text-sm leading-relaxed flex-1">
+                    {specificSuggestionsText}
+                  </p>
+                </div>
+              </div>
+
+              {/* Approved Status Section */}
+              <div className="relative mt-6">
+                <div className="absolute -top-4 left-6 bg-[#C67CFF] text-white rounded-t-lg px-6 py-1.5 text-sm font-semibold shadow-sm z-10">
+                  Approved Status
+                </div>
+                <div className="bg-white rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-6 border border-gray-100 flex justify-around items-center pt-8">
+                  {statuses.map((status, index) => (
+                    <div key={index} className="flex items-center cursor-default">
+                      <div
+                        className={`w-6 h-6 rounded-full border-2 mr-2 flex items-center justify-center transition-all duration-200 ${
+                          index === selectedStatusIndex
+                            ? 'border-[#1976D2] bg-[#1976D2]'
+                            : 'border-gray-400 bg-white'
+                        }`}
+                      >
+                        {index === selectedStatusIndex && (
+                          <div className="w-2.5 h-2.5 rounded-full bg-white" />
+                        )}
+                      </div>
+                      <span className={`text-sm font-medium ${index === selectedStatusIndex ? 'text-[#1976D2]' : 'text-gray-700'}`}>{status}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* 3. Render the Guidelines Modal */}
+      {/* Ensure ResearchGuidelinesModal has a high z-index (e.g., z-50 or z-[70]) in its own file to appear on top */}
+      <ResearchGuidelinesModal
+        isOpen={isGuidelinesOpen}
+        onClose={() => setIsGuidelinesOpen(false)}
+      />
+    </>
   );
 };
 
