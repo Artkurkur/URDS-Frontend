@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
-import SubmissionModal from "./SubmissionModal";
-import type { Submission } from "./SubmissionModal";
+import SubmissionModal from "@/components/FR/SubmissionModal";
+import type { Submission } from "@/components/FR/SubmissionModal";
 
 export interface StudyCardProps {
   chapter: string;

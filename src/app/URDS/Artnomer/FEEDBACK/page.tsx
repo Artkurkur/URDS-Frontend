@@ -17,7 +17,386 @@ const announcements: Array<{
   title: string;
   historyCount: number;
   submissions: Submission[];
-}> = [];
+}> = [
+  {
+    chapter: "Chapter - 4",
+    title:
+      "The Impact of Social Media Usage on Academic Performance Among College Students",
+    historyCount: 5,
+    submissions: [
+      {
+        id: "1",
+        studentName: "Juan Dela Cruz",
+        submittedDate: "Oct 25, 2025",
+        status: "approved",
+      },
+      {
+        id: "2",
+        studentName: "Maria Santos",
+        submittedDate: "Oct 26, 2025",
+        status: "pending",
+      },
+      {
+        id: "3",
+        studentName: "Pedro Reyes",
+        submittedDate: "Oct 27, 2025",
+        status: "submitted",
+      },
+      {
+        id: "4",
+        studentName: "Ana Garcia",
+        submittedDate: "Oct 28, 2025",
+        status: "rejected",
+      },
+      {
+        id: "5",
+        studentName: "Carlos Mendoza",
+        submittedDate: "Oct 29, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 1",
+    title: "Introduction to Research Methodology",
+    historyCount: 3,
+    submissions: [
+      {
+        id: "6",
+        studentName: "Sofia Reyes",
+        submittedDate: "Nov 01, 2025",
+        status: "submitted",
+      },
+      {
+        id: "7",
+        studentName: "Miguel Torres",
+        submittedDate: "Nov 02, 2025",
+        status: "pending",
+      },
+      {
+        id: "8",
+        studentName: "Isabella Cruz",
+        submittedDate: "Nov 03, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 4",
+    title:
+      "The Impact of Social Media Usage on Academic Performance Among College Students",
+    historyCount: 5,
+    submissions: [
+      {
+        id: "1",
+        studentName: "Juan Dela Cruz",
+        submittedDate: "Oct 25, 2025",
+        status: "approved",
+      },
+      {
+        id: "2",
+        studentName: "Maria Santos",
+        submittedDate: "Oct 26, 2025",
+        status: "pending",
+      },
+      {
+        id: "3",
+        studentName: "Pedro Reyes",
+        submittedDate: "Oct 27, 2025",
+        status: "submitted",
+      },
+      {
+        id: "4",
+        studentName: "Ana Garcia",
+        submittedDate: "Oct 28, 2025",
+        status: "rejected",
+      },
+      {
+        id: "5",
+        studentName: "Carlos Mendoza",
+        submittedDate: "Oct 29, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 1",
+    title: "Introduction to Research Methodology",
+    historyCount: 3,
+    submissions: [
+      {
+        id: "6",
+        studentName: "Sofia Reyes",
+        submittedDate: "Nov 01, 2025",
+        status: "submitted",
+      },
+      {
+        id: "7",
+        studentName: "Miguel Torres",
+        submittedDate: "Nov 02, 2025",
+        status: "pending",
+      },
+      {
+        id: "8",
+        studentName: "Isabella Cruz",
+        submittedDate: "Nov 03, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 4",
+    title:
+      "The Impact of Social Media Usage on Academic Performance Among College Students",
+    historyCount: 5,
+    submissions: [
+      {
+        id: "1",
+        studentName: "Juan Dela Cruz",
+        submittedDate: "Oct 25, 2025",
+        status: "approved",
+      },
+      {
+        id: "2",
+        studentName: "Maria Santos",
+        submittedDate: "Oct 26, 2025",
+        status: "pending",
+      },
+      {
+        id: "3",
+        studentName: "Pedro Reyes",
+        submittedDate: "Oct 27, 2025",
+        status: "submitted",
+      },
+      {
+        id: "4",
+        studentName: "Ana Garcia",
+        submittedDate: "Oct 28, 2025",
+        status: "rejected",
+      },
+      {
+        id: "5",
+        studentName: "Carlos Mendoza",
+        submittedDate: "Oct 29, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 1",
+    title: "Introduction to Research Methodology",
+    historyCount: 3,
+    submissions: [
+      {
+        id: "6",
+        studentName: "Sofia Reyes",
+        submittedDate: "Nov 01, 2025",
+        status: "submitted",
+      },
+      {
+        id: "7",
+        studentName: "Miguel Torres",
+        submittedDate: "Nov 02, 2025",
+        status: "pending",
+      },
+      {
+        id: "8",
+        studentName: "Isabella Cruz",
+        submittedDate: "Nov 03, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 4",
+    title:
+      "The Impact of Social Media Usage on Academic Performance Among College Students",
+    historyCount: 5,
+    submissions: [
+      {
+        id: "1",
+        studentName: "Juan Dela Cruz",
+        submittedDate: "Oct 25, 2025",
+        status: "approved",
+      },
+      {
+        id: "2",
+        studentName: "Maria Santos",
+        submittedDate: "Oct 26, 2025",
+        status: "pending",
+      },
+      {
+        id: "3",
+        studentName: "Pedro Reyes",
+        submittedDate: "Oct 27, 2025",
+        status: "submitted",
+      },
+      {
+        id: "4",
+        studentName: "Ana Garcia",
+        submittedDate: "Oct 28, 2025",
+        status: "rejected",
+      },
+      {
+        id: "5",
+        studentName: "Carlos Mendoza",
+        submittedDate: "Oct 29, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 1",
+    title: "Introduction to Research Methodology",
+    historyCount: 3,
+    submissions: [
+      {
+        id: "6",
+        studentName: "Sofia Reyes",
+        submittedDate: "Nov 01, 2025",
+        status: "submitted",
+      },
+      {
+        id: "7",
+        studentName: "Miguel Torres",
+        submittedDate: "Nov 02, 2025",
+        status: "pending",
+      },
+      {
+        id: "8",
+        studentName: "Isabella Cruz",
+        submittedDate: "Nov 03, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 4",
+    title:
+      "The Impact of Social Media Usage on Academic Performance Among College Students",
+    historyCount: 5,
+    submissions: [
+      {
+        id: "1",
+        studentName: "Juan Dela Cruz",
+        submittedDate: "Oct 25, 2025",
+        status: "approved",
+      },
+      {
+        id: "2",
+        studentName: "Maria Santos",
+        submittedDate: "Oct 26, 2025",
+        status: "pending",
+      },
+      {
+        id: "3",
+        studentName: "Pedro Reyes",
+        submittedDate: "Oct 27, 2025",
+        status: "submitted",
+      },
+      {
+        id: "4",
+        studentName: "Ana Garcia",
+        submittedDate: "Oct 28, 2025",
+        status: "rejected",
+      },
+      {
+        id: "5",
+        studentName: "Carlos Mendoza",
+        submittedDate: "Oct 29, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 1",
+    title: "Introduction to Research Methodology",
+    historyCount: 3,
+    submissions: [
+      {
+        id: "6",
+        studentName: "Sofia Reyes",
+        submittedDate: "Nov 01, 2025",
+        status: "submitted",
+      },
+      {
+        id: "7",
+        studentName: "Miguel Torres",
+        submittedDate: "Nov 02, 2025",
+        status: "pending",
+      },
+      {
+        id: "8",
+        studentName: "Isabella Cruz",
+        submittedDate: "Nov 03, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 4",
+    title:
+      "The Impact of Social Media Usage on Academic Performance Among College Students",
+    historyCount: 5,
+    submissions: [
+      {
+        id: "1",
+        studentName: "Juan Dela Cruz",
+        submittedDate: "Oct 25, 2025",
+        status: "approved",
+      },
+      {
+        id: "2",
+        studentName: "Maria Santos",
+        submittedDate: "Oct 26, 2025",
+        status: "pending",
+      },
+      {
+        id: "3",
+        studentName: "Pedro Reyes",
+        submittedDate: "Oct 27, 2025",
+        status: "submitted",
+      },
+      {
+        id: "4",
+        studentName: "Ana Garcia",
+        submittedDate: "Oct 28, 2025",
+        status: "rejected",
+      },
+      {
+        id: "5",
+        studentName: "Carlos Mendoza",
+        submittedDate: "Oct 29, 2025",
+        status: "approved",
+      },
+    ],
+  },
+  {
+    chapter: "Chapter - 1",
+    title: "Introduction to Research Methodology",
+    historyCount: 3,
+    submissions: [
+      {
+        id: "6",
+        studentName: "Sofia Reyes",
+        submittedDate: "Nov 01, 2025",
+        status: "submitted",
+      },
+      {
+        id: "7",
+        studentName: "Miguel Torres",
+        submittedDate: "Nov 02, 2025",
+        status: "pending",
+      },
+      {
+        id: "8",
+        studentName: "Isabella Cruz",
+        submittedDate: "Nov 03, 2025",
+        status: "approved",
+      },
+    ],
+  },
+];
 
 export default function AnnouncementBoard() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,8 +419,8 @@ export default function AnnouncementBoard() {
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <Header
-          userName=""
-          userDepartment=""
+          userName="Dr. Maria L. Santos"
+          userDepartment="College Of Engineering"
           searchPlaceholder="Search Announcement"
         />
 

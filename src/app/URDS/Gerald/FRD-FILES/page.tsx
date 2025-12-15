@@ -7,28 +7,8 @@ import { FaArrowLeft, FaSearch } from "react-icons/fa";
 
 import URDSSidebar from "@/components/FacultyResearcher/sidebar";
 import StudyCard, { Study, Submission } from "@/components/FR/StudyCard";
-import UnifiedAddStudyModal from "@/components/FR/UnifiedAddStudyModal";
-
-/* ---------- TYPES ---------- */
-interface StudyState {
-  title: string;
-  chapter: number;
-  natureOfResearch: string;
-  leader: string;
-  personnel: string;
-  location: string;
-  duration: string;
-  budget: string;
-  college: string;
-  rationale: string;
-  objectives: string;
-  literature: string;
-  methodology: string;
-  budgetaryRequirements: string;
-  formType?: "Research Proposal" | "Work Plan Activities" | "Budget Summary";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
+// Make sure this path matches where you saved the new modal
+import UnifiedAddStudyModal, { StudyState } from "@/components/FR/UnifiedAddStudyModal";
 
 export default function Page() {
   const router = useRouter();
@@ -37,12 +17,18 @@ export default function Page() {
   const [studies, setStudies] = useState<Study[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
+  
+  // Track which study we are adding a submission to (null if creating a new study)
   const [targetStudy, setTargetStudy] = useState<Study | null>(null);
+  // Track if we are editing a specific file/submission
   const [editingSub, setEditingSub] = useState<Submission | null>(null);
 
+  // The single form state that handles Proposal, Work Plan, and Budget data
   const [form, setForm] = useState<StudyState>({
     title: "",
-    chapter: 1,
+    // 🟢 UPDATED: Changed from 1 to 0 to prevent "Chapter 1" default
+    chapter: 0,
+    // 🟢 RESTORED: natureOfResearch
     natureOfResearch: "",
     leader: "",
     personnel: "",
@@ -55,14 +41,16 @@ export default function Page() {
     literature: "",
     methodology: "",
     budgetaryRequirements: "",
-    formType: "Research Proposal"
+    formType: "Research Proposal" // Default tab
   });
 
   /* ---------- HELPERS ---------- */
   const resetForm = () => {
     setForm({
       title: "",
-      chapter: studies.length + 1,
+      // 🟢 UPDATED: Changed to 0
+      chapter: 0,
+      // 🟢 RESTORED: natureOfResearch
       natureOfResearch: "",
       leader: "",
       personnel: "",
@@ -82,35 +70,46 @@ export default function Page() {
   };
 
   /* ---------- ACTIONS ---------- */
+  
+  // 1. Open Modal for a BRAND NEW Study
   const openNewStudy = () => {
     resetForm();
     setShowModal(true);
   };
 
+  // 2. Open Modal to ADD A FILE to an existing Study
   const openAddSubmission = (study: Study) => {
     setTargetStudy(study);
     setEditingSub(null);
+    
+    // Pre-fill the form with the Parent Study's basic info
     setForm({
-      ...form,
+      ...form, // keep defaults
       title: study.title,
       chapter: study.chapter,
-      natureOfResearch: study.natureOfResearch as string,
-      leader: study.leader as string,
-      college: study.college as string,
-      formType: "Research Proposal"
+      // 🟢 RESTORED: natureOfResearch mapping
+      natureOfResearch: (study.natureOfResearch as string) || "",
+      leader: (study.leader as string) || "",
+      college: (study.college as string) || "",
+      formType: "Research Proposal" // Default starting tab
     });
+    
     setShowModal(true);
   };
 
+  // 3. Open Modal to EDIT an existing file
   const openEditSubmission = (study: Study, sub: Submission) => {
     setTargetStudy(study);
     setEditingSub(sub);
+    
+    // Load the saved data into the form
     setForm({
       ...(sub.data as StudyState),
-      title: study.title,
+      title: study.title, // Ensure title stays locked to parent
       chapter: study.chapter,
-      formType: sub.formType
+      formType: sub.formType // Open the modal on the correct tab
     });
+    
     setShowModal(true);
   };
 
@@ -137,84 +136,102 @@ export default function Page() {
     ));
   };
 
-  /* ---------- VIEW FILE HANDLER (UPDATED) ---------- */
+  /* ---------- VIEW FILE HANDLER ---------- */
   const viewSubmission = (study: Study, sub: Submission) => {
-    // 1. Merge parent study info with specific submission data
     const mergedData = {
-      ...study,            // Basic info (Leader, College, etc.)
-      ...(sub.data || {}), // Specific form inputs
-      formType: sub.formType, // Ensure correct form type is used
-      title: sub.data?.title || study.title // Use specific title if available
+      ...study,
+      ...(sub.data || {}),
+      formType: sub.formType,
+      title: (sub.data as StudyState)?.title || study.title
     };
 
-    // 2. Save to localStorage for the View page to read
     localStorage.setItem("viewStudyData", JSON.stringify(mergedData));
-
-    // 3. Navigate to the fixed View page
     router.push("/URDS/Gerald/FRD-FILES/view/file");
   };
 
-  /* ---------- SAVE HANDLER ---------- */
+  /* ---------- SAVE HANDLER (The Brain) ---------- */
   const saveHandler = (isDraft: boolean) => {
     const status: "draft" | "submitted" = isDraft ? "draft" : "submitted";
     const now = new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+    
+    // Get the current form type directly from the form state (controlled by Modal Tabs)
+    const safeFormType = form.formType || "Research Proposal";
 
-    /* A. ADD / EDIT SUBMISSION */
+    /* A. ADDING OR EDITING A SUBMISSION (Inside a Study) */
     if (targetStudy) {
-      setStudies(studies.map(study => {
+      setStudies(prevStudies => prevStudies.map(study => {
         if (study.chapter !== targetStudy.chapter) return study;
 
         if (editingSub) {
-          // Edit existing
+          // UPDATE EXISTING SUBMISSION
           return {
             ...study,
             submissions: study.submissions.map(s =>
               s.id === editingSub.id
-                ? { ...s, status, date: now, formType: form.formType!, data: form, title: `${form.formType} - ${study.title}` }
+                ? { 
+                    ...s, 
+                    status, 
+                    date: now, 
+                    formType: safeFormType, 
+                    data: form, 
+                    title: `${safeFormType} - ${study.title}` 
+                  }
                 : s
             )
           };
         }
 
-        // Add new
+        // CREATE NEW SUBMISSION
         const newSub: Submission = {
           id: Date.now(),
-          title: `${form.formType} - ${study.title}`,
+          title: `${safeFormType} - ${study.title}`,
           date: now,
-          formType: form.formType!,
+          formType: safeFormType,
           status,
           data: form
         };
+        
         return {
           ...study,
           submissions: [...study.submissions, newSub],
           historyCount: study.historyCount + 1
         };
       }));
+      
       setShowModal(false);
       resetForm();
       return;
     }
 
-    /* B. NEW STUDY */
+    /* B. CREATING A BRAND NEW STUDY CONTAINER */
     if (!form.title.trim()) {
       alert("Please input title");
       return;
     }
+    
     const initialSub: Submission = {
       id: Date.now(),
-      title: `${form.formType} - ${form.title}`,
+      title: `${safeFormType} - ${form.title}`,
       date: now,
-      formType: form.formType!,
+      formType: safeFormType,
       status,
       data: form
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const newStudy: any = {
-      ...form,
+    
+    const newStudy: Study = {
+      title: form.title,
+      // 🟢 UPDATED: Logic to avoid chapter numbering
+      chapter: form.chapter || (studies.length > 0 ? Math.max(...studies.map(s => s.chapter)) + 1 : 1),
+      leader: form.leader,
+      duration: form.duration,
+      college: form.college,
+      // 🟢 RESTORED: natureOfResearch
+      natureOfResearch: form.natureOfResearch,
+      formType: safeFormType,
       historyCount: 1,
       submissions: [initialSub]
     };
+    
     setStudies([...studies, newStudy]);
     setShowModal(false);
     resetForm();
@@ -240,7 +257,7 @@ export default function Page() {
               <div className="flex items-center gap-6">
                 <FaArrowLeft
                   size={24}
-                  className="text-gray-600 cursor-pointer"
+                  className="text-gray-600 cursor-pointer hover:text-gray-800 transition"
                   onClick={() => router.push("/URDS/Gerald/FRD-MAIN")}
                 />
                 <div className="flex items-center gap-4">
@@ -263,9 +280,9 @@ export default function Page() {
             </header>
 
             {/* CONTROLS */}
-            <div className="flex justify-between mb-5">
-              <div className="flex items-center flex-grow">
-                <span className="border-b-2 border-yellow-400 mr-5 font-semibold">My Uploads</span>
+            <div className="flex justify-between mb-5 gap-4">
+              <div className="flex items-center flex-grow gap-4">
+                <span className="border-b-2 border-yellow-400 font-semibold whitespace-nowrap">My Uploads</span>
                 <div className="flex items-center bg-gray-100 px-3 py-2 rounded-lg flex-grow max-w-md">
                   <input
                     value={searchQuery}
@@ -276,7 +293,10 @@ export default function Page() {
                   <FaSearch className="text-gray-500" />
                 </div>
               </div>
-              <button onClick={openNewStudy} className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md font-semibold">
+              <button 
+                onClick={openNewStudy} 
+                className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md font-semibold transition whitespace-nowrap"
+              >
                 + Add Study
               </button>
             </div>
@@ -306,6 +326,7 @@ export default function Page() {
         </div>
       </div>
 
+      {/* UNIFIED MODAL */}
       <UnifiedAddStudyModal
         isOpen={showModal}
         onClose={() => {
@@ -316,25 +337,22 @@ export default function Page() {
         onSubmit={() => saveHandler(false)}
         newStudy={form}
         setNewStudy={setForm}
+        // This converts the targetStudy object into the format the modal expects for locking fields
         existingStudy={
           targetStudy
             ? {
                 title: targetStudy.title,
                 chapter: targetStudy.chapter,
-                natureOfResearch: targetStudy.natureOfResearch as string,
-                leader: targetStudy.leader as string,
-                personnel: "",
-                location: "",
-                duration: "",
-                budget: "",
-                college: targetStudy.college as string,
-                rationale: "",
-                objectives: "",
-                literature: "",
-                methodology: "",
-                budgetaryRequirements: "",
+                // 🟢 RESTORED: natureOfResearch mapping
+                natureOfResearch: (targetStudy.natureOfResearch as string) || "",
+                leader: (targetStudy.leader as string) || "",
+                college: (targetStudy.college as string) || "",
+                // We fill the required fields with empty strings or current form values
+                personnel: "", location: "", duration: "", budget: "", 
+                rationale: "", objectives: "", literature: "", 
+                methodology: "", budgetaryRequirements: "",
                 formType: form.formType
-              } as StudyState
+              }
             : null
         }
       />
