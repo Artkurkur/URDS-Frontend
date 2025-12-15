@@ -1,405 +1,55 @@
 // ============================================================
-// File: page.tsx
+// File: src/app/URDS/Gerald/FRD-FILES/page.tsx
 "use client";
 
-import React, { useState } from "react";
-import { Search } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Search, Loader2 } from "lucide-react"; // Added Loader2 for loading state
 
 import URDSSidebar from "@/components/FacultyResearcher/sidebar";
 import { Header } from "@/components/FacultyResearcher/header";
 import StudyCard from "@/components/FR/FileCard";
 import type { Submission } from "@/components/FR/FileCard";
 
-// ---------------------------------------------
-// Server-side data with submissions
-const announcements: Array<{
+// Define the shape of the data we expect from the API
+interface Announcement {
   chapter: string;
   title: string;
   historyCount: number;
   submissions: Submission[];
-}> = [
-  {
-    chapter: "Chapter - 4",
-    title:
-      "The Impact of Social Media Usage on Academic Performance Among College Students",
-    historyCount: 5,
-    submissions: [
-      {
-        id: "1",
-        studentName: "Juan Dela Cruz",
-        submittedDate: "Oct 25, 2025",
-        status: "approved",
-      },
-      {
-        id: "2",
-        studentName: "Maria Santos",
-        submittedDate: "Oct 26, 2025",
-        status: "pending",
-      },
-      {
-        id: "3",
-        studentName: "Pedro Reyes",
-        submittedDate: "Oct 27, 2025",
-        status: "submitted",
-      },
-      {
-        id: "4",
-        studentName: "Ana Garcia",
-        submittedDate: "Oct 28, 2025",
-        status: "rejected",
-      },
-      {
-        id: "5",
-        studentName: "Carlos Mendoza",
-        submittedDate: "Oct 29, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 1",
-    title: "Introduction to Research Methodology",
-    historyCount: 3,
-    submissions: [
-      {
-        id: "6",
-        studentName: "Sofia Reyes",
-        submittedDate: "Nov 01, 2025",
-        status: "submitted",
-      },
-      {
-        id: "7",
-        studentName: "Miguel Torres",
-        submittedDate: "Nov 02, 2025",
-        status: "pending",
-      },
-      {
-        id: "8",
-        studentName: "Isabella Cruz",
-        submittedDate: "Nov 03, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 4",
-    title:
-      "The Impact of Social Media Usage on Academic Performance Among College Students",
-    historyCount: 5,
-    submissions: [
-      {
-        id: "1",
-        studentName: "Juan Dela Cruz",
-        submittedDate: "Oct 25, 2025",
-        status: "approved",
-      },
-      {
-        id: "2",
-        studentName: "Maria Santos",
-        submittedDate: "Oct 26, 2025",
-        status: "pending",
-      },
-      {
-        id: "3",
-        studentName: "Pedro Reyes",
-        submittedDate: "Oct 27, 2025",
-        status: "submitted",
-      },
-      {
-        id: "4",
-        studentName: "Ana Garcia",
-        submittedDate: "Oct 28, 2025",
-        status: "rejected",
-      },
-      {
-        id: "5",
-        studentName: "Carlos Mendoza",
-        submittedDate: "Oct 29, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 1",
-    title: "Introduction to Research Methodology",
-    historyCount: 3,
-    submissions: [
-      {
-        id: "6",
-        studentName: "Sofia Reyes",
-        submittedDate: "Nov 01, 2025",
-        status: "submitted",
-      },
-      {
-        id: "7",
-        studentName: "Miguel Torres",
-        submittedDate: "Nov 02, 2025",
-        status: "pending",
-      },
-      {
-        id: "8",
-        studentName: "Isabella Cruz",
-        submittedDate: "Nov 03, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 4",
-    title:
-      "The Impact of Social Media Usage on Academic Performance Among College Students",
-    historyCount: 5,
-    submissions: [
-      {
-        id: "1",
-        studentName: "Juan Dela Cruz",
-        submittedDate: "Oct 25, 2025",
-        status: "approved",
-      },
-      {
-        id: "2",
-        studentName: "Maria Santos",
-        submittedDate: "Oct 26, 2025",
-        status: "pending",
-      },
-      {
-        id: "3",
-        studentName: "Pedro Reyes",
-        submittedDate: "Oct 27, 2025",
-        status: "submitted",
-      },
-      {
-        id: "4",
-        studentName: "Ana Garcia",
-        submittedDate: "Oct 28, 2025",
-        status: "rejected",
-      },
-      {
-        id: "5",
-        studentName: "Carlos Mendoza",
-        submittedDate: "Oct 29, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 1",
-    title: "Introduction to Research Methodology",
-    historyCount: 3,
-    submissions: [
-      {
-        id: "6",
-        studentName: "Sofia Reyes",
-        submittedDate: "Nov 01, 2025",
-        status: "submitted",
-      },
-      {
-        id: "7",
-        studentName: "Miguel Torres",
-        submittedDate: "Nov 02, 2025",
-        status: "pending",
-      },
-      {
-        id: "8",
-        studentName: "Isabella Cruz",
-        submittedDate: "Nov 03, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 4",
-    title:
-      "The Impact of Social Media Usage on Academic Performance Among College Students",
-    historyCount: 5,
-    submissions: [
-      {
-        id: "1",
-        studentName: "Juan Dela Cruz",
-        submittedDate: "Oct 25, 2025",
-        status: "approved",
-      },
-      {
-        id: "2",
-        studentName: "Maria Santos",
-        submittedDate: "Oct 26, 2025",
-        status: "pending",
-      },
-      {
-        id: "3",
-        studentName: "Pedro Reyes",
-        submittedDate: "Oct 27, 2025",
-        status: "submitted",
-      },
-      {
-        id: "4",
-        studentName: "Ana Garcia",
-        submittedDate: "Oct 28, 2025",
-        status: "rejected",
-      },
-      {
-        id: "5",
-        studentName: "Carlos Mendoza",
-        submittedDate: "Oct 29, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 1",
-    title: "Introduction to Research Methodology",
-    historyCount: 3,
-    submissions: [
-      {
-        id: "6",
-        studentName: "Sofia Reyes",
-        submittedDate: "Nov 01, 2025",
-        status: "submitted",
-      },
-      {
-        id: "7",
-        studentName: "Miguel Torres",
-        submittedDate: "Nov 02, 2025",
-        status: "pending",
-      },
-      {
-        id: "8",
-        studentName: "Isabella Cruz",
-        submittedDate: "Nov 03, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 4",
-    title:
-      "The Impact of Social Media Usage on Academic Performance Among College Students",
-    historyCount: 5,
-    submissions: [
-      {
-        id: "1",
-        studentName: "Juan Dela Cruz",
-        submittedDate: "Oct 25, 2025",
-        status: "approved",
-      },
-      {
-        id: "2",
-        studentName: "Maria Santos",
-        submittedDate: "Oct 26, 2025",
-        status: "pending",
-      },
-      {
-        id: "3",
-        studentName: "Pedro Reyes",
-        submittedDate: "Oct 27, 2025",
-        status: "submitted",
-      },
-      {
-        id: "4",
-        studentName: "Ana Garcia",
-        submittedDate: "Oct 28, 2025",
-        status: "rejected",
-      },
-      {
-        id: "5",
-        studentName: "Carlos Mendoza",
-        submittedDate: "Oct 29, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 1",
-    title: "Introduction to Research Methodology",
-    historyCount: 3,
-    submissions: [
-      {
-        id: "6",
-        studentName: "Sofia Reyes",
-        submittedDate: "Nov 01, 2025",
-        status: "submitted",
-      },
-      {
-        id: "7",
-        studentName: "Miguel Torres",
-        submittedDate: "Nov 02, 2025",
-        status: "pending",
-      },
-      {
-        id: "8",
-        studentName: "Isabella Cruz",
-        submittedDate: "Nov 03, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 4",
-    title:
-      "The Impact of Social Media Usage on Academic Performance Among College Students",
-    historyCount: 5,
-    submissions: [
-      {
-        id: "1",
-        studentName: "Juan Dela Cruz",
-        submittedDate: "Oct 25, 2025",
-        status: "approved",
-      },
-      {
-        id: "2",
-        studentName: "Maria Santos",
-        submittedDate: "Oct 26, 2025",
-        status: "pending",
-      },
-      {
-        id: "3",
-        studentName: "Pedro Reyes",
-        submittedDate: "Oct 27, 2025",
-        status: "submitted",
-      },
-      {
-        id: "4",
-        studentName: "Ana Garcia",
-        submittedDate: "Oct 28, 2025",
-        status: "rejected",
-      },
-      {
-        id: "5",
-        studentName: "Carlos Mendoza",
-        submittedDate: "Oct 29, 2025",
-        status: "approved",
-      },
-    ],
-  },
-  {
-    chapter: "Chapter - 1",
-    title: "Introduction to Research Methodology",
-    historyCount: 3,
-    submissions: [
-      {
-        id: "6",
-        studentName: "Sofia Reyes",
-        submittedDate: "Nov 01, 2025",
-        status: "submitted",
-      },
-      {
-        id: "7",
-        studentName: "Miguel Torres",
-        submittedDate: "Nov 02, 2025",
-        status: "pending",
-      },
-      {
-        id: "8",
-        studentName: "Isabella Cruz",
-        submittedDate: "Nov 03, 2025",
-        status: "approved",
-      },
-    ],
-  },
-];
+}
 
 export default function AnnouncementBoard() {
   const [searchQuery, setSearchQuery] = useState("");
+  // 1. State to hold the data from the database
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  // 2. State to handle loading and errors
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // 3. Effect to fetch data when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        // This calls the API route we will create in Part 2
+        const response = await fetch('/api/announcements'); 
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const data = await response.json();
+        setAnnouncements(data);
+      } catch (err) {
+        console.error("Error fetching announcements:", err);
+        setError("Failed to load announcements. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Filter announcements based on search query
   const filteredAnnouncements = announcements.filter((item) => {
@@ -419,8 +69,8 @@ export default function AnnouncementBoard() {
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <Header
-          userName="Dr. Maria L. Santos"
-          userDepartment="College Of Engineering"
+          userName=""
+          userDepartment=""
           searchPlaceholder="Search Announcement"
         />
 
@@ -445,7 +95,18 @@ export default function AnnouncementBoard() {
 
             {/* White Content Container */}
             <div className="bg-white rounded-[10px] shadow-sm p-8 min-h-[calc(100vh-180px)] max-h-[calc(100vh-180px)] mt-10 space-y-4 overflow-y-auto">
-              {filteredAnnouncements.length === 0 ? (
+              
+              {/* Handling Loading State */}
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center h-full text-gray-400">
+                  <Loader2 className="w-10 h-10 animate-spin mb-2" />
+                  <p>Loading announcements...</p>
+                </div>
+              ) : error ? (
+                <div className="text-center py-12 text-red-500">
+                  <p>{error}</p>
+                </div>
+              ) : filteredAnnouncements.length === 0 ? (
                 <div className="text-center py-12 text-gray-500">
                   <p className="text-lg">
                     {searchQuery
@@ -456,7 +117,8 @@ export default function AnnouncementBoard() {
               ) : (
                 filteredAnnouncements.map((item, index) => (
                   <StudyCard
-                    key={index}
+                    // Using index as key is okay for static lists, but prefer a unique ID if available in DB (item.id)
+                    key={index} 
                     chapter={item.chapter}
                     title={item.title}
                     historyCount={item.historyCount}

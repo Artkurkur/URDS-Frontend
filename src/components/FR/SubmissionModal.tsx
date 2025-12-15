@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, MessageSquare } from "lucide-react";
+import { X } from "lucide-react";
+import ResearchFeedback, { ResearchFeedbackProps } from './ResearchFeedback'; 
 
-// 1. Updated Interface to include 'feedback'
 export interface Submission {
   id: string;
   studentName: string;
   submittedDate: string;
   status: "pending" | "submitted" | "rejected" | "approved";
-  feedback?: string; // Optional feedback field
+  feedbackData?: Omit<ResearchFeedbackProps, 'isOpen' | 'onClose' | 'onViewFile'>;
 }
 
 interface SubmissionModalProps {
@@ -20,73 +20,6 @@ interface SubmissionModalProps {
   submissions: Submission[];
 }
 
-// 2. New Internal Component: Feedback Modal
-interface FeedbackModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  submission: Submission | null;
-}
-
-const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, submission }) => {
-  if (!isOpen || !submission) return null;
-
-  return (
-    <div 
-      className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60] p-4"
-      onClick={onClose}
-    >
-      <div 
-        className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-200"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Feedback Header */}
-        <div className="bg-gray-50 border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <MessageSquare className="text-blue-500" size={20} />
-            <h3 className="text-gray-800 text-lg font-semibold">Evaluator Feedback</h3>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition hover:bg-gray-200 rounded-full p-1"
-          >
-            <X size={20} />
-          </button>
-        </div>
-
-        {/* Feedback Content */}
-        <div className="p-6">
-          <div className="mb-4">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Student</p>
-            <p className="text-sm font-medium text-gray-800">{submission.studentName}</p>
-          </div>
-          
-          <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Comments</p>
-            <div className="bg-blue-50 rounded-xl p-4 border border-blue-100 text-gray-700 text-sm leading-relaxed min-h-[100px]">
-              {submission.feedback ? (
-                submission.feedback
-              ) : (
-                <span className="text-gray-400 italic">No feedback provided by the evaluator yet.</span>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Feedback Footer */}
-        <div className="bg-gray-50 px-6 py-4 flex justify-end">
-          <button 
-            onClick={onClose}
-            className="bg-gray-800 hover:bg-gray-900 text-white text-sm font-medium px-5 py-2 rounded-lg transition"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// 3. Main Component
 const SubmissionModal: React.FC<SubmissionModalProps> = ({
   isOpen,
   onClose,
@@ -94,8 +27,7 @@ const SubmissionModal: React.FC<SubmissionModalProps> = ({
   title,
   submissions,
 }) => {
-  // State to track which submission's feedback is being viewed
-  const [selectedFeedback, setSelectedFeedback] = useState<Submission | null>(null);
+  const [selectedFeedbackSubmission, setSelectedFeedbackSubmission] = useState<Submission | null>(null);
 
   if (!isOpen) return null;
 
@@ -119,18 +51,33 @@ const SubmissionModal: React.FC<SubmissionModalProps> = ({
     }
   };
 
+  // ✅ RESTORED: Only set state if feedbackData exists
+  const handleViewFeedbackClick = (submission: Submission) => {
+    if (submission.feedbackData) {
+      setSelectedFeedbackSubmission(submission);
+    } else {
+      // Optional: Add toast notification here
+      console.log("No feedback data available.");
+    }
+  };
+
+  const handleFeedbackModalViewFile = () => {
+    console.log("Opening file from feedback modal for:", selectedFeedbackSubmission?.id);
+  };
+
   return (
     <>
+      {/* 1. Main Submission List Modal */}
       <div 
-        className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4"
+        className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50 p-4"
         onClick={onClose}
       >
         <div 
-          className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+          className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shrink-0">
+          <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
             <h2 className="text-gray-800 text-lg font-semibold">Chapter Submissions</h2>
             <button
               onClick={onClose}
@@ -141,7 +88,7 @@ const SubmissionModal: React.FC<SubmissionModalProps> = ({
           </div>
 
           {/* Submissions List */}
-          <div className="p-6 overflow-y-auto">
+          <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
             {submissions.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
                 <p className="text-lg">No submissions yet</p>
@@ -154,10 +101,8 @@ const SubmissionModal: React.FC<SubmissionModalProps> = ({
                     className="bg-white border-2 border-yellow-400 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition flex items-center justify-between"
                   >
                     <div className="flex items-center gap-4 flex-1">
-                      {/* Folder Icon */}
                       <div className="text-3xl">📁</div>
 
-                      {/* Content */}
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="inline-block bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
@@ -168,20 +113,23 @@ const SubmissionModal: React.FC<SubmissionModalProps> = ({
                         <p className="text-sm font-medium text-gray-800">{title}</p>
                       </div>
 
-                      {/* Status Dot */}
                       <div className={`w-3 h-3 rounded-full ${getStatusColor(submission.status)}`}></div>
                     </div>
 
-                    {/* Status and Action Buttons */}
                     <div className="ml-4 flex items-center gap-3">
-                      <div className="bg-white border border-gray-300 text-gray-700 text-sm font-medium px-4 py-2 rounded-full">
+                      <button className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium px-6 py-2 rounded-full transition">
                         {getStatusText(submission.status)}
-                      </div>
+                      </button>
                       
                       {/* View Feedback Button */}
                       <button 
-                        onClick={() => setSelectedFeedback(submission)}
-                        className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-5 py-2 rounded-full transition shadow-sm flex items-center gap-2"
+                        onClick={() => handleViewFeedbackClick(submission)}
+                        disabled={!submission.feedbackData}
+                        className={`text-white text-sm font-medium px-6 py-2 rounded-full transition ${
+                          submission.feedbackData 
+                            ? 'bg-blue-500 hover:bg-blue-600 cursor-pointer' 
+                            : 'bg-gray-300 cursor-not-allowed'
+                        }`}
                       >
                         View Feedback
                       </button>
@@ -194,12 +142,16 @@ const SubmissionModal: React.FC<SubmissionModalProps> = ({
         </div>
       </div>
 
-      {/* Render the Feedback Modal */}
-      <FeedbackModal 
-        isOpen={!!selectedFeedback}
-        submission={selectedFeedback}
-        onClose={() => setSelectedFeedback(null)}
-      />
+      {/* 2. ResearchFeedback Modal */}
+      {/* ✅ RESTORED: Guard clause to ensure we have data before rendering */}
+      {selectedFeedbackSubmission && selectedFeedbackSubmission.feedbackData && (
+        <ResearchFeedback
+          isOpen={!!selectedFeedbackSubmission}
+          onClose={() => setSelectedFeedbackSubmission(null)}
+          onViewFile={handleFeedbackModalViewFile}
+          {...selectedFeedbackSubmission.feedbackData}
+        />
+      )}
     </>
   );
 };
