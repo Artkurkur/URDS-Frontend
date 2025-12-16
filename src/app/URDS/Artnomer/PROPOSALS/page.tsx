@@ -119,14 +119,19 @@ export default function FacultySubmissionsPage() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
         
-        const response = await fetch("http://192.168.254.142:5000/api/submissions", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          mode: 'cors', // Explicitly set CORS mode
-          signal: controller.signal,
-        });
+       const response = await fetch(
+  `http://192.168.254.142:5000/api/submissions?college=${encodeURIComponent(
+    selectedCollege.name
+  )}`,
+  {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
+    signal: controller.signal,
+  }
+);
         
         clearTimeout(timeoutId);
         

@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const protectedRoutes = [
-    "/URDS/Mamas",
+    "/URDS/MAMAS",
     "/URDS/Chokuliyt",
     "/URDS/Gerald",
   ];

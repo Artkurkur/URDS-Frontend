@@ -45,38 +45,6 @@ export default function URDSDashboard() {
     guidelines: ''
   });
 
-  function normalizeDateForInput(dateString?: string) {
-  if (!dateString) return "";
-
-  // If backend sends ISO, extract ONLY the date part
-  // "2025-02-14T16:00:00.000Z" → "2025-02-14"
-  return dateString.split("T")[0];
-}
-
-function safeDate(value: string) {
-  if (!value) return "—";
-  const d = new Date(value);
-  return isNaN(d.getTime())
-    ? "—"
-    : d.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      });
-}
-
-function toDateInputValue(dateString: string) {
-  if (!dateString) return "";
-
-  const d = new Date(dateString);
-
-  // Get local date parts (NO UTC CONVERSION)
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
   const handleFilterSelect = (filter: string) => {
     if (filter === 'Specific Date') setIsDateModalOpen(true);
     else setSelectedFilter(filter);
@@ -97,13 +65,12 @@ function toDateInputValue(dateString: string) {
     setIsEditMode(true);
     setEditingId(announcement.id);
     setFormData({
-  title: announcement.title,
-  description: announcement.description,
-  startDate: normalizeDateForInput(announcement.startDate),
-  deadline: normalizeDateForInput(announcement.deadline),
-  guidelines: announcement.guidelines
-});
-
+      title: announcement.title,
+      description: announcement.description,
+      startDate: announcement.startDate,
+      deadline: announcement.deadline,
+      guidelines: announcement.guidelines
+    });
     setIsModalOpen(true);
     setSelectedAnnouncementId(null);
   };
@@ -317,8 +284,6 @@ console.log(
   "Announcement IDs:",
   announcements.map(a => a.id)
 );
-
-
   return (
     <>
       {/* PAGE CONTENT */}
@@ -353,7 +318,7 @@ console.log(
 
                   <div
                     onClick={() => handleAnnouncementClick(latestAnnouncement.id)}
-                    className={`relative bg-gradient-to-r from-gray-50 to-orange-50 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 border border-gray-100 cursor-pointer transition-all duration-300 h-30 overflow-hidden ${
+                    className={`relative bg-gradient-to-r from-gray-50 to-orange-50 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center gap-4 border border-gray-100 cursor-pointer transition-all duration-300 ${
                       selectedAnnouncementId === latestAnnouncement.id
                         ? 'brightness-90 ring-2 ring-blue-400'
                         : 'hover:brightness-95'
